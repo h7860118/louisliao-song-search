@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>路易斯鋼琴獨奏譜查詢</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: #f5f7fb;
+      color: #1f2933;
+    }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 16px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+    .search-row {
+      display: flex;
+      gap: 16px;
+      align-items: stretch;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .search-input-wrap {
+      flex: 1 1 260px;
+      position: relative;
+    }
+    .search-input-wrap input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      font-size: 16px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .search-input-wrap input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+    }
+    .search-btn {
+      flex: 0 0 auto;
+      padding: 0 32px;
+      border-radius: 999px;
+      border: none;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-width: 96px;
+    }
+    .search-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .tip {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+    .status {
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 8px;
+    }
+    .results {
+      margin-top: 8px;
+    }
+    .result-count {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 8px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+      border: 1px solid #e5e7eb;
+    }
+    .song-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .links a {
+      font-size: 14px;
+      color: #2563eb;
+      text-decoration: none;
+      margin-right: 12px;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      margin-left: 6px;
+    }
+    @media (max-width: 640px) {
+      .page { padding: 20px 12px 48px; }
+      h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>路易斯鋼琴獨奏譜查詢</h1>
+    <div class="subtitle">
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「童話」「光良」「涼涼」等。
+    </div>
+
+    <div class="search-row">
+      <div class="search-input-wrap">
+        <input
+          id="keyword"
+          type="text"
+          placeholder="輸入歌名／演唱者關鍵字…"
+        />
+      </div>
+      <button id="searchBtn" class="search-btn">搜尋</button>
+    </div>
+
+    <div class="tip">
+      🔍 小秘訣：可以用歌名、歌手、或是部分關鍵字來找，例如「蘇永康」「重回傷心地」。
+    </div>
+
+    <div id="status" class="status">目前載入中…</div>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <script>
+    // ✅ 這裡放你的 Google Sheet CSV 連結
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv";
+
+    let songs = [];
+    const statusEl = document.getElementById("status");
+    const resultsEl = document.getElementById("results");
+    const searchInput = document.getElementById("keyword");
+    const searchBtn = document.getElementById("searchBtn");
+
+    // 讀取 CSV
+    async function loadCSV() {
+      try {
+        statusEl.textContent = "正在從試算表載入資料…";
+        const res = await fetch(CSV_URL);
+        if (!res.ok) throw new Error("載入失敗：" + res.status);
+        const text = await res.text();
+
+        // 逐行解析
+        const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+        // 假設第一列是標題：樂譜標題,首頁預覽,示範演奏
+        songs = lines.slice(1).map(line => {
+          const cols = line.split(",");
+          return {
+            title: cols[0] ? cols[0].trim() : "",
+            productUrl: cols[1] ? cols[1].trim() : "",
+            youtubeUrl: cols[2] ? cols[2].trim() : ""
+          };
+        }).filter(s => s.title);
+
+        statusEl.textContent = `資料載入完成，共 ${songs.length} 首。`;
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "讀取資料時發生錯誤，稍後再試一次。";
+      }
+    }
+
+    // 搜尋
+    function doSearch() {
+      const kw = searchInput.value.trim().toLowerCase();
+      if (!kw) {
+        resultsEl.innerHTML = "";
+        statusEl.textContent = "請先輸入關鍵字再搜尋。";
+        return;
+      }
+      if (!songs.length) {
+        statusEl.textContent = "資料尚未載入完成，請稍後再試。";
+        return;
+      }
+
+      const filtered = songs.filter(s =>
+        s.title.toLowerCase().includes(kw)
+      );
+
+      renderResults(filtered, kw);
+    }
+
+    function renderResults(list, kw) {
+      if (!list.length) {
+        resultsEl.innerHTML = "";
+        statusEl.textContent = `找不到符合「${kw}」的結果。`;
+        return;
+      }
+
+      statusEl.textContent = "";
+      let html = `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>`;
+      html += list.map(s => `
+        <div class="card">
+          <div class="song-title">
+            ${s.title}
+            <span class="badge">鋼琴獨奏譜</span>
+          </div>
+          <div class="links">
+            ${s.productUrl ? `<a href="${s.productUrl}" target="_blank" rel="noopener">首頁預覽（商品頁）</a>` : ""}
+            ${s.youtubeUrl ? `<a href="${s.youtubeUrl}" target="_blank" rel="noopener">示範演奏（YouTube）</a>` : ""}
+          </div>
+        </div>
+      `).join("");
+
+      resultsEl.innerHTML = html;
+    }
+
+    // 事件綁定
+    searchBtn.addEventListener("click", doSearch);
+    searchInput.addEventListener("keydown", e => {
+      if (e.key === "Enter") doSearch();
+    });
+
+    // 頁面載入就先抓資料
+    loadCSV();
+  </script>
+</body>
+</html>
+add index.html
