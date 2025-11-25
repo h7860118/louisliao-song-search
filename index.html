@@ -120,11 +120,13 @@
     #lineFab:hover {
       transform: scale(1.07);
     }
-    #lineFab img {
-      width: 44px;
-      height: 44px;
+    #lineFab svg {
+      width: 46px;
+      height: 46px;
+      display: block;
     }
 
+    /* ---------- 彈窗樣式 ---------- */
     #lineModalBg {
       position: fixed;
       inset: 0;
@@ -155,14 +157,10 @@
       align-items: center;
       justify-content: space-between;
     }
-    #lineModalHeader img {
-      height: 26px;
-      margin-right: 6px;
-    }
-    #lineModalClose {
-      cursor: pointer;
-      font-size: 22px;
-      font-weight: 700;
+    #lineModalTitle {
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
     #lineModalBody {
       padding: 22px;
@@ -171,6 +169,16 @@
     #lineModalBody img {
       width: 220px;
       margin-bottom: 16px;
+    }
+    #lineModalClose {
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .page { padding: 20px 12px 48px; }
+      h1 { font-size: 22px; }
     }
   </style>
 </head>
@@ -196,40 +204,63 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- 🔰 LINE 客服按鈕 -->
+  <!-- 🟢 LINE 客服按鈕（SVG 圖示） -->
   <div id="lineFab">
-    <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line-logo-white.png" />
+    <svg viewBox="0 0 64 64" aria-hidden="true">
+      <!-- 白色大對話框 -->
+      <path
+        d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z"
+        fill="#ffffff"
+      />
+      <!-- LINE 字樣 -->
+      <text x="32" y="32" text-anchor="middle"
+            font-size="14" font-weight="700"
+            fill="#06c755"
+            font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif">
+        LINE
+      </text>
+    </svg>
   </div>
 
-  <!-- 🔰 彈窗背景 -->
+  <!-- 彈窗背景 -->
   <div id="lineModalBg"></div>
 
-  <!-- 🔰 彈窗 -->
+  <!-- 彈窗 -->
   <div id="lineModal">
     <div id="lineModalHeader">
-      <div style="display:flex;align-items:center;">
-        <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line-logo-white.png" />
-        Line
+      <div id="lineModalTitle">
+        <!-- 標題左邊的小白字「LINE」 -->
+        <span style="font-weight:800;">LINE</span>
       </div>
       <div id="lineModalClose">×</div>
     </div>
 
     <div id="lineModalBody">
-      <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" />
-      <a href="https://lin.ee/aAgocM5" target="_blank" style="color:#7b3fe4;text-decoration:none;">https://lin.ee/aAgocM5</a>
+      <!-- 這張是你上傳到 GitHub 的 QR 圖 -->
+      <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" alt="LINE QR Code" />
+      <a href="https://lin.ee/aAgocM5" target="_blank" style="color:#7b3fe4;text-decoration:none;">
+        https://lin.ee/aAgocM5
+      </a>
     </div>
   </div>
 
   <script>
-    document.getElementById("lineFab").onclick = () => {
+    // LINE 彈窗開關
+    const lineFab       = document.getElementById("lineFab");
+    const lineModalBg   = document.getElementById("lineModalBg");
+    const lineModal     = document.getElementById("lineModal");
+    const lineModalClose= document.getElementById("lineModalClose");
+
+    lineFab.onclick = () => {
       lineModalBg.style.display = "block";
-      lineModal.style.display = "block";
+      lineModal.style.display   = "block";
     };
-    document.getElementById("lineModalBg").onclick =
-    document.getElementById("lineModalClose").onclick = () => {
+    const closeLineModal = () => {
       lineModalBg.style.display = "none";
-      lineModal.style.display = "none";
+      lineModal.style.display   = "none";
     };
+    lineModalBg.onclick    = closeLineModal;
+    lineModalClose.onclick = closeLineModal;
   </script>
 
   <script>
@@ -237,15 +268,15 @@
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv";
 
     let songs = [];
-    const statusEl = document.getElementById("status");
+    const statusEl  = document.getElementById("status");
     const resultsEl = document.getElementById("results");
     const searchInput = document.getElementById("keyword");
-    const searchBtn = document.getElementById("searchBtn");
+    const searchBtn   = document.getElementById("searchBtn");
 
     async function loadCSV() {
       try {
         statusEl.textContent = "正在從試算表載入資料…";
-        const res = await fetch(CSV_URL);
+        const res  = await fetch(CSV_URL);
         if (!res.ok) throw new Error("載入失敗：" + res.status);
         const text = await res.text();
         const lines = text.split(/\r?\n/).filter((l) => l.trim() !== "");
@@ -254,7 +285,7 @@
           .map((line) => {
             const cols = line.split(",");
             return {
-              title: cols[0] ? cols[0].trim() : "",
+              title:      cols[0] ? cols[0].trim() : "",
               productUrl: cols[1] ? cols[1].trim() : "",
               youtubeUrl: cols[2] ? cols[2].trim() : "",
             };
