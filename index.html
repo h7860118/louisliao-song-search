@@ -119,6 +119,122 @@
       .page { padding: 20px 12px 48px; }
       h1 { font-size: 22px; }
     }
+
+    /* --------- LINE 客服漂浮按鈕 + 彈出視窗 --------- */
+    #lineFab {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      z-index: 999;
+      text-decoration: none;
+      cursor: grab;
+      touch-action: none;
+    }
+    #lineFab:active {
+      cursor: grabbing;
+    }
+    .line-fab-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #06C755;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,.3);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    #lineFab:hover .line-fab-inner {
+      transform: translateY(-1px);
+      box-shadow: 0 13px 28px rgba(0,0,0,.35);
+    }
+    #lineFab svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    .line-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(0,0,0,.25);
+      z-index: 998;
+    }
+    .line-modal {
+      width: 320px;
+      max-width: 90vw;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      margin-right: 22px;
+    }
+    .line-modal-header {
+      background: #06C755;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .line-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .line-modal-logo-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #06C755;
+      font-weight: 700;
+    }
+    .line-modal-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .line-modal-body {
+      padding: 16px 18px 20px;
+      text-align: center;
+    }
+    .line-modal-qr {
+      width: 210px;
+      height: 210px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 14px;
+    }
+    .line-modal-link {
+      display: inline-block;
+      font-size: 14px;
+      color: #7b3bb2;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .line-modal-link:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 640px) {
+      .line-modal { margin-right: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -146,6 +262,47 @@
     <div id="status" class="status">目前載入中…</div>
 
     <div id="results" class="results"></div>
+  </div>
+
+  <!-- LINE 客服漂浮按鈕 -->
+  <a id="lineFab" href="https://lin.ee/aAgocM5"
+     target="_blank" rel="noopener" aria-label="加入 LINE 官方帳號">
+    <div class="line-fab-inner">
+      <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g fill="none" fill-rule="evenodd">
+          <path d="M18 4C10.82 4 5 9.01 5 15.19c0 4.37 2.77 7.94 7.02 9.6-.31 1.04-1.17 3.9-1.34 4.52-.21.8.29.79.61.58.25-.17 3.94-2.68 5.54-3.77.73.07 1.48.11 2.24.11 7.18 0 13-5.01 13-11.19C32.07 9.01 25.18 4 18 4z"
+                fill="#FFFFFF"/>
+          <path d="M12.6 14.05v5.14H11v-5.14H9.4v-1.6H13v1.6h-.4zm3.06 5.14h-1.6v-6.74h1.6v6.74zm4.56 0h-4.02v-6.74h1.6v5.14h2.42v1.6zm4.78 0l-1.9-2.94-.02 2.94h-1.6v-6.74h1.6l-.02 2.83 1.83-2.83h1.87l-2.16 3.17 2.27 3.57h-1.87z"
+                fill="#06C755"/>
+        </g>
+      </svg>
+    </div>
+  </a>
+
+  <!-- LINE 彈出視窗：QR 卡片 -->
+  <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
+    <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
+      <div class="line-modal-header">
+        <div class="line-modal-header-left">
+          <div class="line-modal-logo-circle">LINE</div>
+          <div id="lineModalTitle">Line</div>
+        </div>
+        <button type="button" class="line-modal-close" aria-label="關閉">×</button>
+      </div>
+      <div class="line-modal-body">
+        <img
+          class="line-modal-qr"
+          src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg"
+          alt="加入 LINE 好友 QR Code"
+        />
+        <a class="line-modal-link"
+           href="https://lin.ee/aAgocM5"
+           target="_blank"
+           rel="noopener">
+          https://lin.ee/aAgocM5
+        </a>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -238,6 +395,100 @@
 
     // 頁面載入就先抓資料
     loadCSV();
+
+    /* ---- LINE 按鈕拖曳 + 彈出視窗 ---- */
+    const fab = document.getElementById("lineFab");
+    const overlay = document.getElementById("lineModalOverlay");
+    const closeBtn = document.querySelector(".line-modal-close");
+
+    if (fab) {
+      let dragging = false;
+      let dragMoved = false;
+      let offsetX = 0;
+      let offsetY = 0;
+      let pointerId = null;
+
+      fab.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        dragMoved = false;
+        pointerId = e.pointerId;
+        fab.setPointerCapture(pointerId);
+
+        const rect = fab.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+
+        fab.style.transition = "none";
+      });
+
+      window.addEventListener("pointermove", (e) => {
+        if (!dragging || e.pointerId !== pointerId) return;
+
+        dragMoved = true;
+
+        let x = e.clientX - offsetX;
+        let y = e.clientY - offsetY;
+
+        const margin = 8;
+        const maxX = window.innerWidth - fab.offsetWidth - margin;
+        const maxY = window.innerHeight - fab.offsetHeight - margin;
+
+        x = Math.min(Math.max(margin, x), maxX);
+        y = Math.min(Math.max(margin, y), maxY);
+
+        fab.style.left = x + "px";
+        fab.style.top = y + "px";
+        fab.style.right = "auto";
+        fab.style.bottom = "auto";
+      });
+
+      window.addEventListener("pointerup", (e) => {
+        if (!dragging || e.pointerId !== pointerId) return;
+
+        dragging = false;
+        fab.releasePointerCapture(pointerId);
+        pointerId = null;
+
+        fab.style.transition = "";
+      });
+
+      fab.addEventListener("click", (e) => {
+        if (dragMoved) {
+          dragMoved = false;
+          return;
+        }
+
+        e.preventDefault();
+
+        if (overlay) {
+          overlay.style.display = "flex";
+          overlay.setAttribute("aria-hidden", "false");
+        } else {
+          const href = fab.getAttribute("href");
+          if (href) window.open(href, "_blank");
+        }
+      });
+
+      function closeLineModal() {
+        if (!overlay) return;
+        overlay.style.display = "none";
+        overlay.setAttribute("aria-hidden", "true");
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+          closeLineModal();
+        });
+      }
+
+      if (overlay) {
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            closeLineModal();
+          }
+        });
+      }
+    }
   </script>
 </body>
 </html>
