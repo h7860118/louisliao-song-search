@@ -15,16 +15,16 @@
     .page {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 16px 80px;
+      padding: 24px 16px 80px;
     }
 
     /* ------------------ 標題列 ------------------ */
     .header-row {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 14px;
+      justify-content: space-between;
       gap: 12px;
+      margin-bottom: 14px;
     }
 
     h1 {
@@ -34,20 +34,14 @@
       color: #0f172a;
     }
 
-    /* ------------------ 浮動品牌膠囊（顏色再淡一點 + glow） ------------------ */
+    /* ------------------ 官網膠囊（淡藍 + glow，改成嵌在 header） ------------------ */
     .brand-pill {
-      position: fixed;
-      top: 22px;
-      right: 24px;
-      z-index: 900;
-
       display: inline-flex;
       align-items: center;
       gap: 10px;
       padding: 10px 22px 11px;
       border-radius: 999px;
 
-      /* 顏色調淡一階 */
       background: linear-gradient(135deg, #f4f7ff 0%, #e4ecff 100%);
       border: 1px solid rgba(148,163,184,0.30);
       color: #0f172a;
@@ -58,6 +52,7 @@
       box-shadow: 0 10px 24px rgba(37,99,235,0.14);
       transition: all .2s ease;
       overflow: visible;
+      position: relative; /* 為了放 glow */
     }
 
     .brand-pill::before {
@@ -96,15 +91,22 @@
     }
 
     @media (max-width: 640px) {
+      .page {
+        padding-top: 20px;
+      }
+
       .header-row {
         flex-direction: column;
         align-items: flex-start;
+        gap: 10px;
+      }
+
+      h1 {
+        font-size: 24px;
       }
 
       .brand-pill {
-        top: 16px;
-        right: 16px;
-        padding: 9px 16px;
+        padding: 9px 18px;
         font-size: 14px;
       }
 
@@ -114,7 +116,7 @@
       }
     }
 
-    /* ------------------ 原有搜尋 UI ------------------ */
+    /* ------------------ 搜尋 UI ------------------ */
     .subtitle {
       font-size: 15px;
       color: #6b7280;
@@ -200,7 +202,7 @@
       margin-right: 14px;
     }
 
-    /* ------------------ LINE 浮動按鈕（影片那種比例 + 卡片） ------------------ */
+    /* ------------------ LINE 浮動按鈕 + 小卡片（你的版本保持不變） ------------------ */
     #lineFab {
       position: fixed;
       right: 22px;
@@ -236,7 +238,6 @@
       display: block;
     }
 
-    /* LINE 彈出小卡片（右側） */
     .line-modal-overlay {
       position: fixed;
       inset: 0;
@@ -333,8 +334,15 @@
 <body>
 
   <div class="page">
+    <!-- 標題 + 官網膠囊放在同一列 -->
     <div class="header-row">
       <h1>路易斯鋼琴獨奏譜查詢</h1>
+      <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
+        <span class="brand-pill-logo">
+          <img src="https://cdn.store-assets.com/s/715447/f/15885666.jpg" alt="LouisLiao Piano Logo" />
+        </span>
+        <span>LouisLiao Piano 鋼琴編曲</span>
+      </a>
     </div>
 
     <div class="subtitle">
@@ -356,24 +364,14 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- 漂浮官網膠囊（右上角固定＋logo 圓形） -->
-  <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
-    <span class="brand-pill-logo">
-      <img src="https://cdn.store-assets.com/s/715447/f/15885666.jpg" alt="LouisLiao Piano Logo" />
-    </span>
-    <span>LouisLiao Piano 鋼琴編曲</span>
-  </a>
-
-  <!-- LINE 浮動按鈕（影片那種比例） -->
+  <!-- LINE 浮動按鈕 -->
   <a id="lineFab" aria-label="加入 LINE 官方帳號">
     <div class="line-fab-inner">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <!-- 白色對話框 -->
         <path
           d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z"
           fill="#ffffff"
         />
-        <!-- LINE 字樣 -->
         <text x="32" y="33" text-anchor="middle"
               font-size="14" font-weight="700"
               fill="#06c755"
