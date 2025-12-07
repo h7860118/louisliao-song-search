@@ -11,13 +11,14 @@
       background: #f5f7fb;
       color: #1f2933;
     }
+
     .page {
       max-width: 1100px;
       margin: 0 auto;
       padding: 32px 16px 80px;
     }
 
-    /* 加入：標題 + 品牌方塊 */
+    /* ★★★★★ 新增：標題 + 官網膠囊方塊 */
     .header-row {
       display: flex;
       align-items: center;
@@ -58,12 +59,21 @@
       font-size: 17px;
     }
 
+    @media (max-width: 640px) {
+      .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* 其他原始樣式 */
     .subtitle {
       font-size: 15px;
       color: #6b7280;
-      margin-top: 4px;
-      margin-bottom: 24px;
+      margin-top: 6px;
+      margin-bottom: 26px;
     }
+
     .search-row {
       display: flex;
       gap: 16px;
@@ -164,7 +174,6 @@
       display: block;
     }
 
-    /* ---------- 彈窗樣式 ---------- */
     #lineModalBg {
       position: fixed;
       inset: 0;
@@ -195,11 +204,6 @@
       align-items: center;
       justify-content: space-between;
     }
-    #lineModalTitle {
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
     #lineModalBody {
       padding: 22px;
       text-align: center;
@@ -213,19 +217,13 @@
       font-size: 22px;
       font-weight: 700;
     }
-
-    @media (max-width: 640px) {
-      .page { padding: 20px 12px 48px; }
-      h1 { font-size: 22px; }
-      .header-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
   </style>
 </head>
+
 <body>
   <div class="page">
+    
+    <!-- ★★★★★ 新增：標題 + 官網膠囊按鈕 -->
     <div class="header-row">
       <h1>路易斯鋼琴獨奏譜查詢</h1>
       <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
@@ -238,6 +236,7 @@
       輸入歌名或演唱者的一部分即可模糊搜尋，例如「童話」「光良」「涼涼」等。
     </div>
 
+    <!-- 搜尋區 -->
     <div class="search-row">
       <div class="search-input-wrap">
         <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" />
@@ -246,53 +245,36 @@
     </div>
 
     <div class="tip">
-      🔍 小秘訣：可以用歌名、歌手、或是部分關鍵字來找，例如「蘇永康」「重回傷心地」。
+      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「蘇永康」「重回傷心地」。
     </div>
 
     <div id="status" class="status">目前載入中…</div>
     <div id="results" class="results"></div>
   </div>
 
-  <!-- 🟢 LINE 客服按鈕（SVG 圖示） -->
+  <!-- 🟢 LINE 按鈕 -->
   <div id="lineFab">
     <svg viewBox="0 0 64 64" aria-hidden="true">
-      <!-- 白色大對話框 -->
-      <path
-        d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z"
-        fill="#ffffff"
-      />
-      <!-- LINE 字樣 -->
-      <text x="32" y="32" text-anchor="middle"
-            font-size="14" font-weight="700"
-            fill="#06c755"
-            font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif">
-        LINE
-      </text>
+      <path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#fff"/>
+      <text x="32" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#06c755">LINE</text>
     </svg>
   </div>
 
-  <!-- 彈窗背景 -->
   <div id="lineModalBg"></div>
 
-  <!-- 彈窗 -->
   <div id="lineModal">
     <div id="lineModalHeader">
-      <div id="lineModalTitle">
-        <span style="font-weight:800;">LINE</span>
-      </div>
-      <div id="lineModalClose">×</div>
+      <span>LINE</span>
+      <span id="lineModalClose" style="cursor:pointer;">×</span>
     </div>
-
     <div id="lineModalBody">
-      <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" alt="LINE QR Code" />
-      <a href="https://lin.ee/aAgocM5" target="_blank" style="color:#7b3fe4;text-decoration:none;">
-        https://lin.ee/aAgocM5
-      </a>
+      <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg">
+      <a href="https://lin.ee/aAgocM5" target="_blank">https://lin.ee/aAgocM5</a>
     </div>
   </div>
 
   <script>
-    // LINE 彈窗開關
+    // LINE Modal 控制
     const lineFab       = document.getElementById("lineFab");
     const lineModalBg   = document.getElementById("lineModalBg");
     const lineModal     = document.getElementById("lineModal");
@@ -302,14 +284,11 @@
       lineModalBg.style.display = "block";
       lineModal.style.display   = "block";
     };
-    const closeLineModal = () => {
-      lineModalBg.style.display = "none";
-      lineModal.style.display   = "none";
-    };
-    lineModalBg.onclick    = closeLineModal;
-    lineModalClose.onclick = closeLineModal;
+    lineModalBg.onclick    = () => { lineModalBg.style.display = lineModal.style.display = "none"; };
+    lineModalClose.onclick = () => { lineModalBg.style.display = lineModal.style.display = "none"; };
   </script>
 
+  <!-- 讀取 CSV -->
   <script>
     const CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv";
@@ -322,85 +301,65 @@
 
     async function loadCSV() {
       try {
-        statusEl.textContent = "正在從試算表載入資料…";
-        const res  = await fetch(CSV_URL);
-        if (!res.ok) throw new Error("載入失敗：" + res.status);
+        statusEl.textContent = "正在載入資料…";
+        const res = await fetch(CSV_URL);
         const text = await res.text();
-        const lines = text.split(/\r?\n/).filter((l) => l.trim() !== "");
-        songs = lines
-          .slice(1)
-          .map((line) => {
-            const cols = line.split(",");
+
+        songs = text.split(/\r?\n/).slice(1)
+          .map(line => {
+            const c = line.split(",");
             return {
-              title:      cols[0] ? cols[0].trim() : "",
-              productUrl: cols[1] ? cols[1].trim() : "",
-              youtubeUrl: cols[2] ? cols[2].trim() : "",
-            };
+              title: c[0]?.trim(),
+              productUrl: c[1]?.trim(),
+              youtubeUrl: c[2]?.trim()
+            }
           })
-          .filter((s) => s.title);
+          .filter(s => s.title);
 
         statusEl.textContent = `資料載入完成，共 ${songs.length} 首。`;
-      } catch (err) {
-        statusEl.textContent = "讀取資料時發生錯誤，稍後再試一次。";
+      } catch {
+        statusEl.textContent = "資料讀取失敗，請稍後再試。";
       }
     }
 
     function doSearch() {
       const kw = searchInput.value.trim().toLowerCase();
       if (!kw) {
+        statusEl.textContent = "請先輸入關鍵字。";
         resultsEl.innerHTML = "";
-        statusEl.textContent = "請先輸入關鍵字再搜尋。";
         return;
       }
-      const filtered = songs.filter((s) =>
-        s.title.toLowerCase().includes(kw)
-      );
-      renderResults(filtered, kw);
+
+      const list = songs.filter(s => s.title.toLowerCase().includes(kw));
+      render(list, kw);
     }
 
-    function renderResults(list, kw) {
+    function render(list, kw) {
       if (!list.length) {
-        resultsEl.innerHTML = "";
         statusEl.textContent = `找不到符合「${kw}」的結果。`;
+        resultsEl.innerHTML = "";
         return;
       }
 
       statusEl.textContent = "";
-      let html = `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>`;
-      html += list
-        .map(
-          (s) => `
-        <div class="card">
-          <div class="song-title">
-            ${s.title}
-            <span class="badge">鋼琴獨奏譜</span>
+      resultsEl.innerHTML =
+        `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
+        list.map(s => `
+          <div class="card">
+            <div class="song-title">${s.title}</div>
+            <div class="links">
+              ${s.productUrl ? `<a href="${s.productUrl}" target="_blank">首頁預覽</a>` : ""}
+              ${s.youtubeUrl ? `<a href="${s.youtubeUrl}" target="_blank">示範演奏</a>` : ""}
+            </div>
           </div>
-          <div class="links">
-            ${
-              s.productUrl
-                ? `<a href="${s.productUrl}" target="_blank">首頁預覽（商品頁）</a>`
-                : ""
-            }
-            ${
-              s.youtubeUrl
-                ? `<a href="${s.youtubeUrl}" target="_blank">示範演奏（YouTube）</a>`
-                : ""
-            }
-          </div>
-        </div>
-      `
-        )
-        .join("");
-
-      resultsEl.innerHTML = html;
+        `).join("");
     }
 
-    searchBtn.addEventListener("click", doSearch);
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") doSearch();
-    });
+    searchBtn.onclick = doSearch;
+    searchInput.addEventListener("keydown", e => e.key === "Enter" && doSearch());
 
     loadCSV();
   </script>
+
 </body>
 </html>
