@@ -16,14 +16,52 @@
       margin: 0 auto;
       padding: 32px 16px 80px;
     }
+
+    /* 加入：標題 + 品牌方塊 */
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
     h1 {
       font-size: 28px;
       font-weight: 700;
-      margin: 0 0 8px;
+      margin: 0;
     }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px 9px;
+      border-radius: 999px;
+      background: #f4e2c9;
+      color: #5b3c25;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(0,0,0,.16);
+      white-space: nowrap;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .brand-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 22px rgba(0,0,0,.22);
+      background: #faedd8;
+    }
+
+    .brand-pill-icon {
+      font-size: 17px;
+    }
+
     .subtitle {
       font-size: 15px;
       color: #6b7280;
+      margin-top: 4px;
       margin-bottom: 24px;
     }
     .search-row {
@@ -179,12 +217,23 @@
     @media (max-width: 640px) {
       .page { padding: 20px 12px 48px; }
       h1 { font-size: 22px; }
+      .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <h1>路易斯鋼琴獨奏譜查詢</h1>
+    <div class="header-row">
+      <h1>路易斯鋼琴獨奏譜查詢</h1>
+      <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
+        <span class="brand-pill-icon">♪</span>
+        <span>LouisLiao Piano 鋼琴編曲</span>
+      </a>
+    </div>
+
     <div class="subtitle">
       輸入歌名或演唱者的一部分即可模糊搜尋，例如「童話」「光良」「涼涼」等。
     </div>
@@ -229,14 +278,12 @@
   <div id="lineModal">
     <div id="lineModalHeader">
       <div id="lineModalTitle">
-        <!-- 標題左邊的小白字「LINE」 -->
         <span style="font-weight:800;">LINE</span>
       </div>
       <div id="lineModalClose">×</div>
     </div>
 
     <div id="lineModalBody">
-      <!-- 這張是你上傳到 GitHub 的 QR 圖 -->
       <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" alt="LINE QR Code" />
       <a href="https://lin.ee/aAgocM5" target="_blank" style="color:#7b3fe4;text-decoration:none;">
         https://lin.ee/aAgocM5
