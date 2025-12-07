@@ -34,7 +34,7 @@
       color: #0f172a;
     }
 
-    /* ------------------ 浮動品牌膠囊 ------------------ */
+    /* ------------------ 浮動品牌膠囊（顏色再淡一點 + glow） ------------------ */
     .brand-pill {
       position: fixed;
       top: 22px;
@@ -47,38 +47,37 @@
       padding: 10px 22px 11px;
       border-radius: 999px;
 
-      background: linear-gradient(135deg, #e8f1ff 0%, #d5e4ff 100%);
-      border: 1px solid rgba(148,163,184,0.45);
+      /* 顏色調淡一階 */
+      background: linear-gradient(135deg, #f4f7ff 0%, #e4ecff 100%);
+      border: 1px solid rgba(148,163,184,0.30);
       color: #0f172a;
       font-size: 15px;
       font-weight: 700;
       text-decoration: none;
 
-      box-shadow: 0 12px 30px rgba(37,99,235,0.18);
+      box-shadow: 0 10px 24px rgba(37,99,235,0.14);
       transition: all .2s ease;
       overflow: visible;
     }
 
-    /* iOS 風外光暈 */
     .brand-pill::before {
       content: "";
       position: absolute;
       inset: -10px -20px;
       border-radius: inherit;
-      background: radial-gradient(circle at center, rgba(129,178,255,0.60), rgba(129,178,255,0));
+      background: radial-gradient(circle at center, rgba(164,191,255,0.40), rgba(164,191,255,0));
       filter: blur(8px);
       z-index: -1;
-      opacity: 0.9;
+      opacity: 0.85;
       pointer-events: none;
     }
 
     .brand-pill:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 38px rgba(37,99,235,0.26);
-      filter: brightness(1.04);
+      box-shadow: 0 16px 34px rgba(37,99,235,0.22);
+      filter: brightness(1.03);
     }
 
-    /* 使用你提供的 JPG 作為圓形 logo */
     .brand-pill-logo {
       width: 28px;
       height: 28px;
@@ -86,7 +85,7 @@
       background: #ffffff;
       overflow: hidden;
       flex-shrink: 0;
-      box-shadow: 0 6px 14px rgba(37,99,235,.35);
+      box-shadow: 0 6px 14px rgba(37,99,235,.30);
     }
 
     .brand-pill-logo img {
@@ -201,25 +200,132 @@
       margin-right: 14px;
     }
 
-    /* LINE 按鈕 */
+    /* ------------------ LINE 浮動按鈕（影片那種比例 + 卡片） ------------------ */
     #lineFab {
       position: fixed;
       right: 22px;
       bottom: 22px;
-      width: 70px;
-      height: 70px;
-      background: #06c755;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
-      cursor: pointer;
       z-index: 850;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .line-fab-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #06C755;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-      transition: transform 0.2s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .15s ease, box-shadow .15s ease;
     }
-    #lineFab:hover {
-      transform: scale(1.07);
+
+    #lineFab:hover .line-fab-inner {
+      transform: translateY(-1px);
+      box-shadow: 0 13px 28px rgba(0,0,0,.32);
+    }
+
+    #lineFab svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    /* LINE 彈出小卡片（右側） */
+    .line-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(0,0,0,.25);
+      z-index: 840;
+    }
+
+    .line-modal {
+      width: 320px;
+      max-width: 90vw;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      margin-right: 22px;
+    }
+
+    .line-modal-header {
+      background: #06C755;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .line-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .line-modal-logo-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #06C755;
+      font-weight: 700;
+    }
+
+    .line-modal-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .line-modal-body {
+      padding: 16px 18px 20px;
+      text-align: center;
+    }
+
+    .line-modal-qr {
+      width: 210px;
+      height: 210px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 14px;
+    }
+
+    .line-modal-link {
+      display: inline-block;
+      font-size: 14px;
+      color: #2563eb;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .line-modal-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .line-modal {
+        margin-right: 12px;
+      }
     }
   </style>
 </head>
@@ -258,19 +364,91 @@
     <span>LouisLiao Piano 鋼琴編曲</span>
   </a>
 
-  <!-- LINE 浮動按鈕 -->
-  <div id="lineFab">
-    <svg viewBox="0 0 64 64">
-      <path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#ffffff"/>
-      <text x="32" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#06c755">LINE</text>
-    </svg>
+  <!-- LINE 浮動按鈕（影片那種比例） -->
+  <a id="lineFab" aria-label="加入 LINE 官方帳號">
+    <div class="line-fab-inner">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <!-- 白色對話框 -->
+        <path
+          d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z"
+          fill="#ffffff"
+        />
+        <!-- LINE 字樣 -->
+        <text x="32" y="33" text-anchor="middle"
+              font-size="14" font-weight="700"
+              fill="#06c755"
+              font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif">
+          LINE
+        </text>
+      </svg>
+    </div>
+  </a>
+
+  <!-- LINE 小卡片 -->
+  <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
+    <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
+      <div class="line-modal-header">
+        <div class="line-modal-header-left">
+          <div class="line-modal-logo-circle">LINE</div>
+          <div id="lineModalTitle">路易斯 LINE 客服</div>
+        </div>
+        <button type="button" class="line-modal-close" aria-label="關閉">×</button>
+      </div>
+      <div class="line-modal-body">
+        <img
+          class="line-modal-qr"
+          src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg"
+          alt="加入 LINE 好友 QR Code"
+        />
+        <a class="line-modal-link"
+           href="https://lin.ee/aAgocM5"
+           target="_blank"
+           rel="noopener">
+          https://lin.ee/aAgocM5
+        </a>
+      </div>
+    </div>
   </div>
 
+  <!-- LINE 按鈕互動 -->
   <script>
-    // LINE 直接開官方帳號
-    document.getElementById("lineFab").onclick = () => {
-      window.open("https://lin.ee/aAgocM5", "_blank");
-    };
+    const lineFab         = document.getElementById("lineFab");
+    const lineOverlay     = document.getElementById("lineModalOverlay");
+    const lineCloseButton = document.querySelector(".line-modal-close");
+
+    function openLineModal() {
+      if (!lineOverlay) {
+        window.open("https://lin.ee/aAgocM5", "_blank");
+        return;
+      }
+      lineOverlay.style.display = "flex";
+      lineOverlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closeLineModal() {
+      if (!lineOverlay) return;
+      lineOverlay.style.display = "none";
+      lineOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    if (lineFab) {
+      lineFab.addEventListener("click", (e) => {
+        e.preventDefault();
+        openLineModal();
+      });
+    }
+
+    if (lineCloseButton) {
+      lineCloseButton.addEventListener("click", closeLineModal);
+    }
+
+    if (lineOverlay) {
+      lineOverlay.addEventListener("click", (e) => {
+        if (e.target === lineOverlay) {
+          closeLineModal();
+        }
+      });
+    }
   </script>
 
   <!-- CSV 搜尋功能 -->
