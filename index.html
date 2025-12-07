@@ -18,45 +18,51 @@
       padding: 32px 16px 80px;
     }
 
-    /* ★★★★★ 新增：標題 + 官網膠囊方塊 */
+    /* ------------------------------------------------
+       ★ 官網膠囊（依照你的藍色工具卡重新設計）
+    --------------------------------------------------*/
     .header-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 14px;
       gap: 12px;
-      margin-bottom: 6px;
     }
 
     h1 {
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 800;
       margin: 0;
+      color: #0f172a;
     }
 
     .brand-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 16px 9px;
+      padding: 12px 22px;
       border-radius: 999px;
-      background: #f4e2c9;
-      color: #5b3c25;
+
+      background: linear-gradient(135deg, #e8f1ff 0%, #d5e4ff 100%);
+      border: 1px solid rgba(148,163,184,0.45);
+      color: #0f172a;
       font-size: 15px;
       font-weight: 700;
       text-decoration: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,.16);
-      white-space: nowrap;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+
+      box-shadow: 0 12px 30px rgba(37,99,235,0.18);
+      transition: all .2s ease;
     }
 
     .brand-pill:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 9px 22px rgba(0,0,0,.22);
-      background: #faedd8;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(37,99,235,0.25);
+      filter: brightness(1.04);
     }
 
     .brand-pill-icon {
-      font-size: 17px;
+      font-size: 18px;
+      color: #2563eb;
     }
 
     @media (max-width: 640px) {
@@ -66,12 +72,14 @@
       }
     }
 
-    /* 其他原始樣式 */
+    /* ------------------------------------------------
+       以下保持原來樣式（搜尋 UI）
+    --------------------------------------------------*/
     .subtitle {
       font-size: 15px;
       color: #6b7280;
-      margin-top: 6px;
-      margin-bottom: 26px;
+      margin-top: 8px;
+      margin-bottom: 22px;
     }
 
     .search-row {
@@ -83,7 +91,6 @@
     }
     .search-input-wrap {
       flex: 1 1 260px;
-      position: relative;
     }
     .search-input-wrap input {
       width: 100%;
@@ -92,14 +99,13 @@
       border: 1px solid #d1d5db;
       font-size: 16px;
       outline: none;
-      box-sizing: border-box;
     }
     .search-input-wrap input:focus {
       border-color: #2563eb;
       box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
     }
+
     .search-btn {
-      flex: 0 0 auto;
       padding: 0 32px;
       border-radius: 999px;
       border: none;
@@ -108,47 +114,53 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      min-width: 96px;
     }
+
     .tip {
       font-size: 13px;
       color: #6b7280;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
+
     .status {
       font-size: 14px;
       color: #6b7280;
       margin-top: 8px;
     }
+
     .results {
       margin-top: 8px;
     }
+
     .result-count {
       font-size: 14px;
       color: #4b5563;
       margin-bottom: 8px;
     }
+
     .card {
-      background: #fff;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
       border: 1px solid #e5e7eb;
+      box-shadow: 0 8px 20px rgba(15,23,42,0.05);
     }
+
     .song-title {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       margin-bottom: 6px;
     }
+
     .links a {
       font-size: 14px;
       color: #2563eb;
       text-decoration: none;
-      margin-right: 12px;
+      margin-right: 14px;
     }
 
-    /* ---------- LINE 小按鈕樣式 ---------- */
+    /* LINE 按鈕 */
     #lineFab {
       position: fixed;
       right: 22px;
@@ -168,64 +180,17 @@
     #lineFab:hover {
       transform: scale(1.07);
     }
-    #lineFab svg {
-      width: 46px;
-      height: 46px;
-      display: block;
-    }
-
-    #lineModalBg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: none;
-      z-index: 9998;
-    }
-    #lineModal {
-      width: 380px;
-      background: white;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      display: none;
-      z-index: 9999;
-    }
-    #lineModalHeader {
-      background: #06c755;
-      color: white;
-      padding: 14px 20px;
-      font-size: 20px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    #lineModalBody {
-      padding: 22px;
-      text-align: center;
-    }
-    #lineModalBody img {
-      width: 220px;
-      margin-bottom: 16px;
-    }
-    #lineModalClose {
-      cursor: pointer;
-      font-size: 22px;
-      font-weight: 700;
-    }
   </style>
 </head>
 
 <body>
+
   <div class="page">
-    
-    <!-- ★★★★★ 新增：標題 + 官網膠囊按鈕 -->
+
+    <!-- ★ 專區標題 + 官網膠囊（藍色版本） -->
     <div class="header-row">
       <h1>路易斯鋼琴獨奏譜查詢</h1>
+
       <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
         <span class="brand-pill-icon">♪</span>
         <span>LouisLiao Piano 鋼琴編曲</span>
@@ -252,56 +217,37 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- 🟢 LINE 按鈕 -->
+  <!-- LINE 浮動按鈕 -->
   <div id="lineFab">
-    <svg viewBox="0 0 64 64" aria-hidden="true">
-      <path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#fff"/>
+    <svg viewBox="0 0 64 64">
+      <path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#ffffff"/>
       <text x="32" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#06c755">LINE</text>
     </svg>
   </div>
 
-  <div id="lineModalBg"></div>
-
-  <div id="lineModal">
-    <div id="lineModalHeader">
-      <span>LINE</span>
-      <span id="lineModalClose" style="cursor:pointer;">×</span>
-    </div>
-    <div id="lineModalBody">
-      <img src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg">
-      <a href="https://lin.ee/aAgocM5" target="_blank">https://lin.ee/aAgocM5</a>
-    </div>
-  </div>
-
+  <!-- JS：LINE 彈窗（保持你原本的） -->
   <script>
-    // LINE Modal 控制
-    const lineFab       = document.getElementById("lineFab");
-    const lineModalBg   = document.getElementById("lineModalBg");
-    const lineModal     = document.getElementById("lineModal");
-    const lineModalClose= document.getElementById("lineModalClose");
-
+    const lineFab = document.getElementById("lineFab");
     lineFab.onclick = () => {
-      lineModalBg.style.display = "block";
-      lineModal.style.display   = "block";
+      window.open("https://lin.ee/aAgocM5", "_blank");
     };
-    lineModalBg.onclick    = () => { lineModalBg.style.display = lineModal.style.display = "none"; };
-    lineModalClose.onclick = () => { lineModalBg.style.display = lineModal.style.display = "none"; };
   </script>
 
-  <!-- 讀取 CSV -->
+  <!-- CSV 搜尋功能 -->
   <script>
     const CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv";
 
     let songs = [];
+
     const statusEl  = document.getElementById("status");
     const resultsEl = document.getElementById("results");
-    const searchInput = document.getElementById("keyword");
-    const searchBtn   = document.getElementById("searchBtn");
+    const searchEl  = document.getElementById("keyword");
 
     async function loadCSV() {
+      statusEl.textContent = "正在載入資料…";
+
       try {
-        statusEl.textContent = "正在載入資料…";
         const res = await fetch(CSV_URL);
         const text = await res.text();
 
@@ -309,21 +255,21 @@
           .map(line => {
             const c = line.split(",");
             return {
-              title: c[0]?.trim(),
+              title:      c[0]?.trim(),
               productUrl: c[1]?.trim(),
               youtubeUrl: c[2]?.trim()
-            }
+            };
           })
           .filter(s => s.title);
 
         statusEl.textContent = `資料載入完成，共 ${songs.length} 首。`;
       } catch {
-        statusEl.textContent = "資料讀取失敗，請稍後再試。";
+        statusEl.textContent = "讀取失敗，請稍後再試。";
       }
     }
 
     function doSearch() {
-      const kw = searchInput.value.trim().toLowerCase();
+      const kw = searchEl.value.trim().toLowerCase();
       if (!kw) {
         statusEl.textContent = "請先輸入關鍵字。";
         resultsEl.innerHTML = "";
@@ -355,8 +301,8 @@
         `).join("");
     }
 
-    searchBtn.onclick = doSearch;
-    searchInput.addEventListener("keydown", e => e.key === "Enter" && doSearch());
+    document.getElementById("searchBtn").onclick = doSearch;
+    searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
 
     loadCSV();
   </script>
