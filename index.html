@@ -357,7 +357,6 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- LINE 浮動按鈕 -->
   <a id="lineFab" aria-label="加入 LINE 官方帳號">
     <div class="line-fab-inner">
       <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -367,7 +366,6 @@
     </div>
   </a>
 
-  <!-- LINE 小卡片 -->
   <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
     <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
       <div class="line-modal-header">
@@ -424,13 +422,15 @@
     }
   </script>
 
-  <!-- 多群組 CSV 搜尋功能 -->
   <script>
-    // 已加入全新第三個試算表網址，並全面採用強制匯出格式以防未發布而被 Google 封鎖
+    // 已順利加入全新第六個試算表網址，目前總計同步串接 6 組曲目資料來源
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
       "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
-      "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv"
+      "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
@@ -487,7 +487,7 @@
                 youtubeUrl: cleanYt
               };
             })
-            .filter(s => s.title && s.title !== "歌名");
+            .filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
 
           songs = songs.concat(currentSheetSongs);
           successCount++;
@@ -497,7 +497,7 @@
       }
 
       if (successCount > 0) {
-        statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目表，總計 ${songs.length} 首歌曲。`;
+        statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目來源，總計 ${songs.length} 首歌曲。`;
       } else {
         statusEl.textContent = "所有曲目表讀取失敗，請確認網址或網路連線。";
       }
