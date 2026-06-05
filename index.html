@@ -423,10 +423,10 @@
   </script>
 
   <script>
-    // 已更新：第二個網址已換成正確包含工作表參數（gid=1903698059）的「鋼琴伴奏」專用發布連結
+    // 修正：已將第二張伴奏表直接轉換為正確的 Google 試算表獨立發布格式網址
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEmNAsK3n2Gj_Wv7eM62X_fCHYw3N1TbeTPhy2gI7w6VdG38yT7BIsK9V2C6T0X1K7z17-uE-Uq36l/pub?gid=1903698059&single=true&output=csv"
+      "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059"
     ];
 
     let songs = [];
@@ -473,12 +473,18 @@
           
           const parsedRows = parseCSVLine(text).slice(1);
           const currentSheetSongs = parsedRows
-            .map(c => ({
-              title:      c[0],
-              productUrl: c[1],
-              youtubeUrl: c[2]
-            }))
-            .filter(s => s.title);
+            .map(c => {
+              // 移除可能殘留的包裹雙引號
+              const cleanTitle = c[0]?.replace(/^"|"$/g, '') || '';
+              const cleanProd  = c[1]?.replace(/^"|"$/g, '') || '';
+              const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
+              return {
+                title:      cleanTitle,
+                productUrl: cleanProd,
+                youtubeUrl: cleanYt
+              };
+            })
+            .filter(s => s.title && s.title !== "歌名"); // 過濾標題列
 
           songs = songs.concat(currentSheetSongs);
           successCount++;
