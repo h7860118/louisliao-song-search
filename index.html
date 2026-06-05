@@ -423,15 +423,16 @@
   </script>
 
   <script>
+    // 已更新：第二個網址已換成正確包含工作表參數（gid=1903698059）的「鋼琴伴奏」專用發布連結
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEmNAsK3n2Gj_Wv7eM62X_fCHYw3N1TbeTPhy2gI7w6VdG38yT7BIsK9V2C6T0X1K7z17-uE-Uq36l/pub?output=csv"
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEmNAsK3n2Gj_Wv7eM62X_fCHYw3N1TbeTPhy2gI7w6VdG38yT7BIsK9V2C6T0X1K7z17-uE-Uq36l/pub?gid=1903698059&single=true&output=csv"
     ];
 
     let songs = [];
 
     const statusEl  = document.getElementById("status");
-    const Starkel = document.getElementById("results");
+    const resultsEl = document.getElementById("results");
     const searchEl  = document.getElementById("keyword");
 
     function parseCSVLine(text) {
@@ -497,7 +498,7 @@
       const kw = searchEl.value.trim().toLowerCase();
       if (!kw) {
         statusEl.textContent = "請先輸入關鍵字。";
-        Starkel.innerHTML = "";
+        resultsEl.innerHTML = "";
         return;
       }
 
@@ -508,12 +509,12 @@
     function render(list, kw) {
       if (!list.length) {
         statusEl.textContent = `找不到符合「${kw}」的結果。`;
-        Starkel.innerHTML = "";
+        resultsEl.innerHTML = "";
         return;
       }
 
       statusEl.textContent = "";
-      Starkel.innerHTML =
+      resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => `
           <div class="card">
