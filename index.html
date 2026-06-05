@@ -357,6 +357,7 @@
     <div id="results" class="results"></div>
   </div>
 
+  <!-- LINE 浮動按鈕 -->
   <a id="lineFab" aria-label="加入 LINE 官方帳號">
     <div class="line-fab-inner">
       <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -366,6 +367,7 @@
     </div>
   </a>
 
+  <!-- LINE 小卡片 -->
   <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
     <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
       <div class="line-modal-header">
@@ -422,11 +424,13 @@
     }
   </script>
 
+  <!-- 多群組 CSV 搜尋功能 -->
   <script>
-    // 修正：已將第二張伴奏表直接轉換為正確的 Google 試算表獨立發布格式網址
+    // 已加入全新第三個試算表網址，並全面採用強制匯出格式以防未發布而被 Google 封鎖
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
-      "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059"
+      "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
+      "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
@@ -474,7 +478,6 @@
           const parsedRows = parseCSVLine(text).slice(1);
           const currentSheetSongs = parsedRows
             .map(c => {
-              // 移除可能殘留的包裹雙引號
               const cleanTitle = c[0]?.replace(/^"|"$/g, '') || '';
               const cleanProd  = c[1]?.replace(/^"|"$/g, '') || '';
               const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
@@ -484,7 +487,7 @@
                 youtubeUrl: cleanYt
               };
             })
-            .filter(s => s.title && s.title !== "歌名"); // 過濾標題列
+            .filter(s => s.title && s.title !== "歌名");
 
           songs = songs.concat(currentSheetSongs);
           successCount++;
