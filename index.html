@@ -654,7 +654,7 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 修正：修正邏輯以精準識別多種鋼琴與弦樂版本標籤，避免誤判為獨奏版
+          // 修正：修正文字匹配邏輯，將「鋼琴版」與「鋼琴演奏版」精準識別並修正標籤文字為「鋼琴演奏版」
           let badgeHtml = '';
           if (s.title.includes("伴奏")) {
             badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
@@ -663,7 +663,7 @@
           } else if (s.title.includes("小提琴")) {
             badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
           } else if (s.title.includes("演奏版") || s.title.includes("鋼琴版")) {
-            badgeHtml = `<span class="version-badge badge-solo">鋼琴演奏譜</span>`;
+            badgeHtml = `<span class="version-badge badge-solo">鋼琴演奏版</span>`;
           } else {
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
           }
