@@ -174,7 +174,7 @@
       margin-bottom: 8px;
     }
 
-    /* ------------------ 歌曲卡片美化與多版本識別 ------------------ */
+    /* ------------------ 歌曲卡片美化與五彩標籤 ------------------ */
     .card {
       background: #ffffff;
       border-radius: 14px;
@@ -207,7 +207,7 @@
       line-height: 1.4;
     }
 
-    /* 精緻版本標籤基本樣式 */
+    /* 版本標籤共用基礎樣式 */
     .version-badge {
       display: inline-flex;
       align-items: center;
@@ -218,28 +218,39 @@
       white-space: nowrap;
     }
 
-    /* 各版本客製化配色方案 */
+    /* 顏色大變化：為每一種版本客製化專屬配色方案 */
     .badge-accompaniment {
-      background-color: #eff6ff;
+      background-color: #eff6ff; /* 亮藍 */
       color: #1d4ed8;
       border: 1px solid #bfdbfe;
     }
 
     .badge-trio {
-      background-color: #faf5ff;
+      background-color: #faf5ff; /* 浪漫紫 */
       color: #6b21a8;
       border: 1px solid #e9d5ff;
     }
 
     .badge-violin {
-      background-color: #fff7ed;
+      background-color: #fff7ed; /* 活力橘 */
       color: #c2410c;
       border: 1px solid #ffedd5;
     }
 
-    /* 綠色調：鋼琴獨奏版、鋼琴演奏版、鋼琴版 */
+    .badge-piano-solo {
+      background-color: #fdf2f8; /* 時尚粉紅 */
+      color: #be185d;
+      border: 1px solid #fbcfe8;
+    }
+
+    .badge-piano-play {
+      background-color: #fff1f2; /* 櫻桃淡紅 */
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
     .badge-solo {
-      background-color: #f0fdf4;
+      background-color: #f0fdf4; /* 清新嫩綠 */
       color: #166534;
       border: 1px solid #bbf7d0;
     }
@@ -462,7 +473,7 @@
     </div>
 
     <div class="subtitle">
-      輸入歌名或演唱者的一部分即可模糊搜尋，例如「回到過去」「天天想你」等。
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想你」「回到過去」等。
     </div>
 
     <div class="search-row">
@@ -655,7 +666,7 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 修正：修正優先級與匹配邏輯，移除錯誤的「演奏譜」字樣，並依據指令將「鋼琴版」獨立拆分為「鋼琴版」標籤
+          // 升級：為每一種版本分配完全獨立的 CSS 配色樣式類別（粉紅、淡紅、嫩綠等）
           let badgeHtml = '';
           if (s.title.includes("伴奏")) {
             badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
@@ -664,9 +675,9 @@
           } else if (s.title.includes("小提琴")) {
             badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
           } else if (s.title.includes("演奏版")) {
-            badgeHtml = `<span class="version-badge badge-solo">鋼琴演奏版</span>`;
+            badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏版</span>`;
           } else if (s.title.includes("鋼琴版")) {
-            badgeHtml = `<span class="version-badge badge-solo">鋼琴版</span>`;
+            badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴版</span>`;
           } else {
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
           }
