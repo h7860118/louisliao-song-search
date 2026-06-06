@@ -174,26 +174,135 @@
       margin-bottom: 8px;
     }
 
+    /* ------------------ 歌曲卡片美化與動態識別 ------------------ */
     .card {
       background: #ffffff;
       border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
       border: 1px solid #e5e7eb;
-      box-shadow: 0 8px 20px rgba(15,23,42,0.05);
+      box-shadow: 0 4px 12px rgba(15,23,42,0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(15,23,42,0.08);
+    }
+
+    .song-title-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .song-title {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
-      margin-bottom: 6px;
+      color: #0f172a;
+      line-height: 1.4;
+    }
+
+    /* 版本標籤樣式 */
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-accompaniment {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .badge-solo {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* 按鈕樣式優化 */
+    .links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .links a {
-      font-size: 14px;
-      color: #2563eb;
+      font-size: 13px;
+      font-weight: 600;
       text-decoration: none;
-      margin-right: 14px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .link-preview {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+
+    .link-preview:hover {
+      background-color: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .link-demo {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .link-demo:hover {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* 空狀態美化提示區塊 */
+    .empty-state-box {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 32px 20px;
+      text-align: center;
+      border: 1px dashed #cbd5e1;
+      color: #475569;
+      margin-top: 16px;
+    }
+
+    .empty-state-box p {
+      margin: 0 0 16px 0;
+      font-size: 15px;
+    }
+
+    .empty-contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #06C755;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(6,199,85,0.2);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .empty-contact-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(6,199,85,0.3);
     }
 
     /* ------------------ LINE 浮動按鈕 + 小卡片 ------------------ */
@@ -339,7 +448,7 @@
     </div>
 
     <div class="subtitle">
-      輸入歌名或演唱者的一部分即可模糊搜尋，例如「童話」「光良」「涼涼」等。
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「幸福在歌唱」「A-Lin」等。
     </div>
 
     <div class="search-row">
@@ -350,7 +459,7 @@
     </div>
 
     <div class="tip">
-      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「蘇永康」「重回傷心地」。
+      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「鋼琴伴奏版」「幸福在歌唱」。
     </div>
 
     <div id="status" class="status">目前載入中…</div>
@@ -423,7 +532,6 @@
   </script>
 
   <script>
-    // 已順利加入全新第六個試算表網址，目前總計同步串接 6 組曲目資料來源
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
       "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
@@ -517,23 +625,42 @@
 
     function render(list, kw) {
       if (!list.length) {
-        statusEl.textContent = `找不到符合「${kw}」的結果。`;
-        resultsEl.innerHTML = "";
+        statusEl.textContent = "";
+        // 搜尋不到時的美化引流提示區塊
+        resultsEl.innerHTML = `
+          <div class="empty-state-box">
+            <p>🔍 找不到符合「${kw}」的曲目嗎？可能該版本還在排程中。</p>
+            <a class="empty-contact-btn" href="#" onclick="openLineModal(); return false;">
+              💬 點此聯絡 LINE 客服直接許願編曲
+            </a>
+          </div>
+        `;
         return;
       }
 
       statusEl.textContent = "";
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
-        list.map(s => `
-          <div class="card">
-            <div class="song-title">${s.title}</div>
-            <div class="links">
-              ${s.productUrl ? `<a href="${s.productUrl}" target="_blank">首頁預覽</a>` : ""}
-              ${s.youtubeUrl ? `<a href="${s.youtubeUrl}" target="_blank">示範演奏</a>` : ""}
+        list.map(s => {
+          // 自動識別標題中是否帶有「伴奏」關鍵字
+          const isAccompaniment = s.title.includes("伴奏");
+          const badgeHtml = isAccompaniment 
+            ? `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`
+            : `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
+
+          return `
+            <div class="card">
+              <div class="song-title-wrap">
+                ${badgeHtml}
+                <div class="song-title">${s.title}</div>
+              </div>
+              <div class="links">
+                ${s.productUrl ? `<a class="link-preview" href="${s.productUrl}" target="_blank">📄 首頁預覽</a>` : ""}
+                ${s.youtubeUrl ? `<a class="link-demo" href="${s.youtubeUrl}" target="_blank">🎬 示範演奏</a>` : ""}
+              </div>
             </div>
-          </div>
-        `).join("");
+          `;
+        }).join("");
     }
 
     document.getElementById("searchBtn").onclick = doSearch;
