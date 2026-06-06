@@ -174,7 +174,7 @@
       margin-bottom: 8px;
     }
 
-    /* ------------------ 歌曲卡片美化與動態識別 ------------------ */
+    /* ------------------ 歌曲卡片美化與多版本識別 ------------------ */
     .card {
       background: #ffffff;
       border-radius: 14px;
@@ -207,7 +207,7 @@
       line-height: 1.4;
     }
 
-    /* 版本標籤樣式 */
+    /* 精緻版本標籤基本樣式 */
     .version-badge {
       display: inline-flex;
       align-items: center;
@@ -218,10 +218,23 @@
       white-space: nowrap;
     }
 
+    /* 各版本客製化配色方案 */
     .badge-accompaniment {
       background-color: #eff6ff;
       color: #1d4ed8;
       border: 1px solid #bfdbfe;
+    }
+
+    .badge-trio {
+      background-color: #faf5ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff;
+    }
+
+    .badge-violin {
+      background-color: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #ffedd5;
     }
 
     .badge-solo {
@@ -269,7 +282,7 @@
       color: #991b1b;
     }
 
-    /* 空狀態美化提示區塊 */
+    /* 空狀態提示區塊 */
     .empty-state-box {
       background: #ffffff;
       border-radius: 14px;
@@ -448,7 +461,7 @@
     </div>
 
     <div class="subtitle">
-      輸入歌名或演唱者的一部分即可模糊搜尋，例如「幸福在歌唱」「A-Lin」等。
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「幸福在歌唱」「回到過去」等。
     </div>
 
     <div class="search-row">
@@ -459,7 +472,7 @@
     </div>
 
     <div class="tip">
-      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「鋼琴伴奏版」「幸福在歌唱」。
+      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「鋼琴三重奏」「小提琴」「伴奏版」。
     </div>
 
     <div id="status" class="status">目前載入中…</div>
@@ -626,7 +639,6 @@
     function render(list, kw) {
       if (!list.length) {
         statusEl.textContent = "";
-        // 搜尋不到時的美化引流提示區塊
         resultsEl.innerHTML = `
           <div class="empty-state-box">
             <p>🔍 找不到符合「${kw}」的曲目嗎？可能該版本還在排程中。</p>
@@ -642,11 +654,18 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 自動識別標題中是否帶有「伴奏」關鍵字
-          const isAccompaniment = s.title.includes("伴奏");
-          const badgeHtml = isAccompaniment 
-            ? `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`
-            : `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
+          // 支援多元自訂版本關鍵字動態識別機制
+          let badgeHtml = '';
+          if (s.title.includes("伴奏")) {
+            badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
+          } else if (s.title.includes("三重奏")) {
+            badgeHtml = `<span class="version-badge badge-trio">鋼琴三重奏</span>`;
+          } else if (s.title.includes("小提琴")) {
+            badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
+          } else {
+            // 包含 鋼琴版、鋼琴演奏版 或其他常規獨奏標籤
+            badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
+          }
 
           return `
             <div class="card">
