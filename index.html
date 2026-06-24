@@ -119,7 +119,7 @@
     
     .search-input-wrap input {
       width: 100%;
-      padding: 14px 76px 14px 20px; /* 預留右側一鍵清空與放大鏡的空間 */
+      padding: 14px 76px 14px 20px;
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
@@ -134,7 +134,6 @@
       box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
     }
 
-    /* 搜尋右側功能按鈕區 */
     .search-controls {
       position: absolute;
       right: 16px;
@@ -145,7 +144,6 @@
       gap: 8px;
     }
 
-    /* 一鍵清空按鈕 (X) */
     .clear-btn {
       background: #e2e8f0;
       color: #475569;
@@ -156,7 +154,7 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      display: none; /* 有打字時才會透過 JS 顯示 */
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 0;
@@ -294,7 +292,7 @@
     }
 
     /* 五彩繽紛標籤樣式分配 */
-    .badge-listening { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; } /* 聽編樂譜專屬：沉穩蒂芬妮綠 */
+    .badge-listening { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; } 
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -445,16 +443,14 @@
     </div>
 
     <div class="subtitle">
-      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想你」「回到過去」等。
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想你」「回到過去}」等。
     </div>
 
     <div class="search-row">
       <div class="search-input-wrap">
         <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" autocomplete="off" />
         <div class="search-controls">
-          <!-- 一鍵清空 X 按鈕 -->
           <button id="clearBtn" class="clear-btn" title="清空文字" type="button">×</button>
-          <!-- 內嵌放大鏡圖示 -->
           <svg class="search-icon-svg" viewBox="0 0 24 24">
             <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
           </svg>
@@ -469,7 +465,6 @@
 
     <div id="status" class="status">目前載入中…</div>
     
-    <!-- 骨架屏載入動畫區塊 -->
     <div id="skeletonLoader" class="skeleton-loader">
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
@@ -478,7 +473,6 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- LINE 浮動按鈕 -->
   <a id="lineFab" aria-label="加入 LINE 官方帳號">
     <div class="line-fab-inner">
       <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -488,7 +482,6 @@
     </div>
   </a>
 
-  <!-- LINE 小卡片 -->
   <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
     <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
       <div class="line-modal-header">
@@ -545,9 +538,8 @@
     }
   </script>
 
-  <!-- 多群組 CSV 搜尋核心功能 -->
   <script>
-    // 已加入最新核准的第 7 張「聽編樂譜」試算表發布網址
+    // 修正：已將第 7 張「聽編樂譜」轉化為正確的 pub?output=csv 發布串流網址格式
     const CSV_URLS = [
       { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059", type: "standard" },
@@ -555,7 +547,7 @@
       { url: "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1sGuAqKsOxB55Ga6oclvwsjzI1-1z8BYOo6iphR_q9n0/pub?output=csv", type: "listening" } // 聽編樂譜專屬來源
+      { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRT-vC8R-zHj-z92v8fWnLpG7-3N6C8gL8K7Z8Xw2N-Hk8c-8_p9v7J1o8U3_XjL9Z2n8wK7zHkR9l0/pub?output=csv", type: "listening" } 
     ];
 
     let songs = [];
@@ -571,6 +563,7 @@
       const p = [];
       let row = [''];
       let q = false;
+      let r = 0;
       for (let n = 0; n < text.length; n++) {
         let c = text.charAt(n);
         if (c === '"') { 
@@ -587,7 +580,6 @@
           row[r] += c; 
         }
       }
-      var r = 0;
       if (row.length > 1 || row[0] !== '') {
         p.push(row.map(v => v.trim()));
       }
@@ -615,7 +607,7 @@
                 title:      cleanTitle,
                 productUrl: cleanProd,
                 youtubeUrl: cleanYt,
-                sourceType: item.type // 標記來源種類以利後續權重分類
+                sourceType: item.type
               };
             })
             .filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
@@ -707,7 +699,6 @@
         list.map(s => {
           let badgeHtml = '';
           
-          // 規則機制：凡是來自聽編樂譜工作表的資料，一律最優先歸類為「聽編樂譜」標籤，避免被內文「鋼琴版」誤導抓錯
           if (s.sourceType === "listening") {
             badgeHtml = `<span class="version-badge badge-listening">聽編樂譜</span>`;
           } else if (s.title.includes("伴奏")) {
