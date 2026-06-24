@@ -49,11 +49,26 @@
       text-decoration: none;
       box-shadow: 0 10px 24px rgba(37,99,235,0.14);
       transition: all .2s ease;
+      overflow: visible;
+      position: relative;
+    }
+
+    .brand-pill::before {
+      content: "";
+      position: absolute;
+      inset: -10px -20px;
+      border-radius: inherit;
+      background: radial-gradient(circle at center, rgba(164,191,255,0.40), rgba(164,191,255,0));
+      filter: blur(8px);
+      z-index: -1;
+      opacity: 0.85;
+      pointer-events: none;
     }
 
     .brand-pill:hover {
       transform: translateY(-2px);
       box-shadow: 0 16px 34px rgba(37,99,235,0.22);
+      filter: brightness(1.03);
     }
 
     .brand-pill-logo {
@@ -77,6 +92,8 @@
       .page { padding-top: 20px; }
       .header-row { flex-direction: column; align-items: flex-start; gap: 10px; }
       h1 { font-size: 24px; }
+      .brand-pill { padding: 9px 18px; font-size: 14px; }
+      .brand-pill-logo { width: 24px; height: 24px; }
     }
 
     /* ------------------ 搜尋 UI ------------------ */
@@ -102,7 +119,7 @@
     
     .search-input-wrap input {
       width: 100%;
-      padding: 14px 76px 14px 20px;
+      padding: 14px 76px 14px 20px; /* 預留右側一鍵清空與放大鏡的空間 */
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
@@ -117,6 +134,7 @@
       box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
     }
 
+    /* 搜尋右側功能按鈕區 */
     .search-controls {
       position: absolute;
       right: 16px;
@@ -127,6 +145,7 @@
       gap: 8px;
     }
 
+    /* 一鍵清空按鈕 (X) */
     .clear-btn {
       background: #e2e8f0;
       color: #475569;
@@ -137,16 +156,25 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      display: none;
+      display: none; /* 有打字時才會透過 JS 顯示 */
       align-items: center;
       justify-content: center;
       padding: 0;
+      line-height: 1;
       transition: background 0.15s ease;
     }
     
-    .clear-btn:hover { background: #cbd5e1; color: #0f172a; }
+    .clear-btn:hover {
+      background: #cbd5e1;
+      color: #0f172a;
+    }
 
-    .search-icon-svg { width: 18px; height: 18px; fill: #94a3b8; pointer-events: none; }
+    .search-icon-svg {
+      width: 18px;
+      height: 18px;
+      fill: #94a3b8;
+      pointer-events: none;
+    }
 
     .search-btn {
       padding: 0 32px;
@@ -160,15 +188,26 @@
       transition: background 0.15s ease;
     }
     
-    .search-btn:hover { background: #1d4ed8; }
+    .search-btn:hover {
+      background: #1d4ed8;
+    }
 
     @media (max-width: 640px) {
       .search-row { flex-direction: column; gap: 10px; }
       .search-btn { padding: 14px 0; text-align: center; width: 100%; }
     }
 
-    .tip { font-size: 13px; color: #6b7280; margin-bottom: 18px; }
-    .status { font-size: 14px; color: #6b7280; margin-top: 8px; }
+    .tip {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 18px;
+    }
+
+    .status {
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 8px;
+    }
 
     /* 骨架屏載入動畫 */
     .skeleton-loader {
@@ -178,7 +217,13 @@
       margin-top: 16px;
     }
     
-    .skeleton-card { background: #ffffff; border-radius: 14px; padding: 18px; border: 1px solid #e5e7eb; }
+    .skeleton-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid #e5e7eb;
+    }
+    
     .skeleton-line {
       height: 16px;
       background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
@@ -186,12 +231,24 @@
       animation: skeleton-blink 1.5s infinite linear;
       border-radius: 4px;
     }
+    
     .skeleton-title { width: 45%; margin-bottom: 12px; }
     .skeleton-btn { width: 20%; }
-    @keyframes skeleton-blink { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    .results { margin-top: 8px; }
-    .result-count { font-size: 14px; color: #4b5563; margin-bottom: 12px; }
+    @keyframes skeleton-blink {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .results {
+      margin-top: 8px;
+    }
+
+    .result-count {
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 12px;
+    }
 
     /* ------------------ 歌曲卡片美化與五彩標籤 ------------------ */
     .card {
@@ -207,10 +264,24 @@
       gap: 12px;
     }
 
-    .card:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(15,23,42,0.08); }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(15,23,42,0.08);
+    }
 
-    .song-title-wrap { display: flex; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
-    .song-title { font-size: 17px; font-weight: 600; color: #0f172a; line-height: 1.4; }
+    .song-title-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .song-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #0f172a;
+      line-height: 1.4;
+    }
 
     .version-badge {
       display: inline-flex;
@@ -222,8 +293,7 @@
       white-space: nowrap;
     }
 
-    /* 五彩標籤配色 */
-    .badge-listening { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; } /* 聽編樂譜：蒂芬妮綠 */
+    /* 五彩繽紛標籤樣式分配 */
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -231,7 +301,12 @@
     .badge-piano-play { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
     .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
-    .links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .links a {
       font-size: 13px;
       font-weight: 600;
@@ -243,9 +318,14 @@
       gap: 4px;
       transition: background 0.15s ease, color 0.15s ease;
     }
-    .link-preview { background-color: #f1f5f9; color: #475569; }
-    .link-demo { background-color: #fef2f2; color: #dc2626; }
 
+    .link-preview { background-color: #f1f5f9; color: #475569; }
+    .link-preview:hover { background-color: #e2e8f0; color: #1e293b; }
+
+    .link-demo { background-color: #fef2f2; color: #dc2626; }
+    .link-demo:hover { background-color: #fee2e2; color: #991b1b; }
+
+    /* 空狀態防呆提示 */
     .empty-state-box {
       background: #ffffff;
       border-radius: 14px;
@@ -255,7 +335,10 @@
       color: #475569;
       margin-top: 16px;
     }
-    .empty-tip-text { font-size: 13px; color: #dc2626; margin: 10px 0 16px 0; font-weight: 500; }
+
+    .empty-state-box p { margin: 0 0 10px 0; font-size: 15px; }
+    .empty-tip-text { font-size: 13px; color: #dc2626; margin: 0 0 16px 0; font-weight: 500; }
+
     .empty-contact-btn {
       display: inline-flex;
       align-items: center;
@@ -268,18 +351,82 @@
       font-size: 14px;
       font-weight: 700;
       box-shadow: 0 4px 12px rgba(6,199,85,0.2);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    /* LINE 浮動按鈕 */
-    #lineFab { position: fixed; right: 22px; bottom: 22px; width: 58px; height: 58px; border-radius: 50%; z-index: 850; cursor: pointer; text-decoration: none; }
-    .line-fab-inner { width: 100%; height: 100%; border-radius: 50%; background-color: #06C755; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(0,0,0,.25); }
+    .empty-contact-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(6,199,85,0.3);
+    }
+
+    /* ------------------ LINE 浮動按鈕 + 小卡片 ------------------ */
+    #lineFab {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      z-index: 850;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .line-fab-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #06C755;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    #lineFab:hover .line-fab-inner { transform: translateY(-1px); box-shadow: 0 13px 28px rgba(0,0,0,.32); }
     #lineFab svg { width: 34px; height: 34px; display: block; }
-    .line-modal-overlay { position: fixed; inset: 0; display: none; justify-content: flex-end; align-items: center; background: rgba(0,0,0,.25); z-index: 840; }
-    .line-modal { width: 320px; max-width: 90vw; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 18px 40px rgba(0,0,0,.35); margin-right: 22px; }
-    .line-modal-header { background: #06C755; color: #ffffff; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; font-size: 15px; font-weight: 600; }
+
+    .line-modal-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: flex-end;
+      align-items: center;
+      background: rgba(0,0,0,.25);
+      z-index: 840;
+    }
+
+    .line-modal {
+      width: 320px;
+      max-width: 90vw;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      margin-right: 22px;
+    }
+
+    .line-modal-header {
+      background: #06C755;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .line-modal-header-left { display: flex; align-items: center; gap: 8px; }
+    .line-modal-logo-circle { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #06C755; font-weight: 700; }
+    .line-modal-close { border: none; background: transparent; color: #ffffff; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; }
     .line-modal-body { padding: 16px 18px 20px; text-align: center; }
     .line-modal-qr { width: 210px; height: 210px; object-fit: contain; display: block; margin: 0 auto 14px; }
     .line-modal-link { display: inline-block; font-size: 14px; color: #2563eb; text-decoration: none; word-break: break-all; }
+    .line-modal-link:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) { .line-modal { margin-right: 12px; } }
   </style>
 </head>
 
@@ -288,30 +435,40 @@
   <div class="page">
     <div class="header-row">
       <h1>路易斯曲目表查詢</h1>
-      <a class="brand-pill" href="https://louisliaopiano.com" target="_blank">
+      <a class="brand-pill" href="https://louisliaopiano.com" target="_blank" rel="noopener">
         <span class="brand-pill-logo">
-          <img src="https://cdn.store-assets.com/s/715447/f/15885666.jpg" alt="Logo" />
+          <img src="https://cdn.store-assets.com/s/715447/f/15885666.jpg" alt="LouisLiao Piano Logo" />
         </span>
         <span>LouisLiao Piano 鋼琴編曲</span>
       </a>
     </div>
 
-    <div class="subtitle">輸入歌名或演唱者的一部分即可模糊搜尋，例如「回到過去」「天天想你」等。</div>
+    <div class="subtitle">
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想你」「回到過去」等。
+    </div>
 
     <div class="search-row">
       <div class="search-input-wrap">
         <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" autocomplete="off" />
         <div class="search-controls">
+          <!-- 一鍵清空 X 按鈕 -->
           <button id="clearBtn" class="clear-btn" title="清空文字" type="button">×</button>
-          <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <!-- 內嵌放大鏡圖示 -->
+          <svg class="search-icon-svg" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
         </div>
       </div>
       <button id="searchBtn" class="search-btn">搜尋</button>
     </div>
 
-    <div class="tip">🔍 支援多關鍵字搜尋！輸入「周杰倫 回到過去」也能精準找到！</div>
-    <div id="status" class="status">正在載入多張曲目資料...</div>
+    <div class="tip">
+      🔍 小秘訣：支援多關鍵字搜尋！輸入「周杰倫 回到過去」或空格拆開也能精準找到喔！
+    </div>
+
+    <div id="status" class="status">目前載入中…</div>
     
+    <!-- 骨架屏載入動畫區塊 -->
     <div id="skeletonLoader" class="skeleton-loader">
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
@@ -320,179 +477,286 @@
     <div id="results" class="results"></div>
   </div>
 
-  <a id="lineFab"><div class="line-fab-inner"><svg viewBox="0 0 64 64"><path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#ffffff" /><text x="32" y="33" text-anchor="middle" font-size="14" font-weight="700" fill="#06c755">LINE</text></svg></div></a>
-  <div id="lineModalOverlay" class="line-modal-overlay">
-    <div class="line-modal">
-      <div class="line-modal-header"><span>路易斯 LINE 客服</span><button class="line-modal-close">×</button></div>
+  <!-- LINE 浮動按鈕 -->
+  <a id="lineFab" aria-label="加入 LINE 官方帳號">
+    <div class="line-fab-inner">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 12C21 12 12 19.5 12 29c0 7.2 5.4 13.2 13.5 14.7L26 52l7.2-5.4C44 45.9 52 38.2 52 29 52 19.5 43 12 32 12z" fill="#ffffff" />
+        <text x="32" y="33" text-anchor="middle" font-size="14" font-weight="700" fill="#06c755" font-family="-apple-system,BlinkMacSystemFont,'Noto Sans TC',sans-serif">LINE</text>
+      </svg>
+    </div>
+  </a>
+
+  <!-- LINE 小卡片 -->
+  <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
+    <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
+      <div class="line-modal-header">
+        <div class="line-modal-header-left">
+          <div class="line-modal-logo-circle">LINE</div>
+          <div id="lineModalTitle">路易斯 LINE 客服</div>
+        </div>
+        <button type="button" class="line-modal-close" aria-label="關閉">×</button>
+      </div>
       <div class="line-modal-body">
-        <img class="line-modal-qr" src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" />
-        <a class="line-modal-link" href="https://lin.ee/aAgocM5" target="_blank">https://lin.ee/aAgocM5</a>
+        <img class="line-modal-qr" src="https://raw.githubusercontent.com/h7860118/lyrics-space/main/line_oa_chat_210222_223854.jpg" alt="加入 LINE 好友 QR Code" />
+        <a class="line-modal-link" href="https://lin.ee/aAgocM5" target="_blank" rel="noopener">https://lin.ee/aAgocM5</a>
       </div>
     </div>
   </div>
 
   <script>
-    function parseCSVLine(text) {
-      const p = [];
-      let row = [''];
-      let q = false;
-      let r = 0;
-      for (let n = 0; n < text.length; n++) {
-        let c = text.charAt(n);
-        if (c === '"') { q = !q; } 
-        else if (c === ',' && !q) { c = row[++r] = ''; } 
-        else if ((c === '\n' || c === '\r') && !q) {
-          if (c === '\r' && text.charAt(n+1) === '\n') { n++; }
-          p.push(row.map(v => v.trim()));
-          row = [''];
-          r = 0;
-        } else { 
-          if (!row[r]) row[r] = '';
-          row[r] += c; 
-        }
+    const lineFab         = document.getElementById("lineFab");
+    const lineOverlay     = document.getElementById("lineModalOverlay");
+    const lineCloseButton = document.querySelector(".line-modal-close");
+
+    function openLineModal() {
+      if (!lineOverlay) {
+        window.open("https://lin.ee/aAgocM5", "_blank");
+        return;
       }
-      if (row.length > 1 || row[0] !== '') { p.push(row.map(v => v.trim())); }
-      return p;
+      lineOverlay.style.display = "flex";
+      lineOverlay.setAttribute("aria-hidden", "false");
     }
 
-    // 核心重構：前 6 張與第 7 張全面融合，網址代號進行最高級別的防禦與通靈處理
+    function closeLineModal() {
+      if (!lineOverlay) return;
+      lineOverlay.style.display = "none";
+      lineOverlay.setAttribute("aria-hidden", "true");
+    }
+
+    if (lineFab) {
+      lineFab.addEventListener("click", (e) => {
+        e.preventDefault();
+        openLineModal();
+      });
+    }
+
+    if (lineCloseButton) {
+      lineCloseButton.addEventListener("click", closeLineModal);
+    }
+
+    if (lineOverlay) {
+      lineOverlay.addEventListener("click", (e) => {
+        if (e.target === lineOverlay) {
+          closeLineModal();
+        }
+      });
+    }
+  </script>
+
+  <!-- 多群組 CSV 搜尋核心優化功能 -->
+  <script>
     const CSV_URLS = [
-      { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv", type: "standard" },
-      // 網址相容完全體：直接對接你的原始連結，透過下方的機制強制轉譯讀取
-      { url: "https://docs.google.com/spreadsheets/d/1sGuAqKsOxB55Ga6oclvwsjzI1-1z8BYOo6iphR_q9n0/gviz/tq?tqx=out:csv", type: "listening" }
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
+      "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
     let debounceTimer;
-    const statusEl = document.getElementById("status");
-    const resultsEl = document.getElementById("results");
-    const searchEl = document.getElementById("keyword");
+
+    const statusEl   = document.getElementById("status");
+    const resultsEl  = document.getElementById("results");
+    const searchEl   = document.getElementById("keyword");
     const clearBtnEl = document.getElementById("clearBtn");
     const skeletonEl = document.getElementById("skeletonLoader");
 
-    async function loadAllCSVs() {
-      songs = [];
-      let successCount = 0;
-      for (const item of CSV_URLS) {
-        try {
-          // 資料安全防禦技術：自動偵測網址型態，如果是一般後台網址，瞬間通靈轉換為純 CSV 串流流向
-          let fetchUrl = item.url;
-          if (fetchUrl.includes("/edit")) {
-            fetchUrl = fetchUrl.replace(/\/edit.*/, "/gviz/tq?tqx=out:csv");
-          }
-
-          const res = await fetch(fetchUrl);
-          if (!res.ok) throw new Error();
-          let text = await res.text();
-
-          // 針對 Google 可視化串流做多重防堵：移除前導的無用 JSON 特殊字元
-          if (text.startsWith("/*O_o*/")) {
-            text = text.replace(/[\s\S]*?google\.visualization\.Query\.setResponse\(/, "").replace(/\);?\s*$/, "");
-            const obj = JSON.parse(text);
-            if (obj.table && obj.table.rows) {
-              const currentSheetSongs = obj.table.rows.map(r => {
-                const cleanTitle = r.c[0]?.v !== null ? String(r.c[0]?.v || '') : '';
-                const cleanProd  = r.c[1]?.v !== null ? String(r.c[1]?.v || '') : '';
-                const cleanYt    = r.c[2]?.v !== null ? String(r.c[2]?.v || '') : '';
-                return { title: cleanTitle, productUrl: cleanProd, youtubeUrl: cleanYt, sourceType: item.type };
-              }).filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
-              songs = songs.concat(currentSheetSongs);
-              successCount++;
-              continue;
-            }
-          }
-
-          // 標準 CSV 原生高速解析解析引擎
-          const parsedRows = parseCSVLine(text).slice(1);
-          const currentSheetSongs = parsedRows.map(c => ({
-            title: c[0]?.replace(/^"|"$/g, '') || '',
-            productUrl: c[1]?.replace(/^"|"$/g, '') || '',
-            youtubeUrl: c[2]?.replace(/^"|"$/g, '') || '',
-            sourceType: item.type
-          })).filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
-          songs = songs.concat(currentSheetSongs);
-          successCount++;
-        } catch (e) { 
-          console.error("備援方案啟動，嘗試替代通道讀取:", item.url);
-          // 終極 Fallback 通道機制
-          try {
-            const fallbackUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-qO_e8yW6yS_qA38-b7U7UeLpG7-3N6C8gL8K7Z8Xw2N-Hk8c-8_p9v7J1o8U3_XjL9Z2n8wK7zHkR9l0/pub?output=csv";
-            const res = await fetch(fallbackUrl);
-            if (res.ok) {
-              const text = await res.text();
-              const parsedRows = parseCSVLine(text).slice(1);
-              const currentSheetSongs = parsedRows.map(c => ({
-                title: c[0]?.replace(/^"|"$/g, '') || '',
-                productUrl: c[1]?.replace(/^"|"$/g, '') || '',
-                youtubeUrl: c[2]?.replace(/^"|"$/g, '') || '',
-                sourceType: "listening"
-              })).filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
-              songs = songs.concat(currentSheetSongs);
-              successCount++;
-            }
-          } catch(err) { console.error("雙通道皆受限"); }
+    function parseCSVLine(text) {
+      const p = [];
+      let row = [''];
+      let i = 0, r = 0, q = false;
+      for (let n = 0; n < text.length; n++) {
+        let c = text.charAt(n);
+        if (c === '"') { 
+          q = !q; 
+        } else if (c === ',' && !q) { 
+          c = row[++r] = ''; 
+        } else if ((c === '\n' || c === '\r') && !q) {
+          if (c === '\r' && text.charAt(n+1) === '\n') { n++; }
+          p.push(row.map(v => v.trim()));
+          row = [c = ''];
+          r = 0;
+        } else { 
+          row[r] += c; 
         }
       }
-      
-      // 去除可能發生的重複讀取保護
-      const seen = new Set();
-      songs = songs.filter(item => {
-        const k = item.title + item.productUrl + item.sourceType;
-        return seen.has(k) ? false : seen.add(k);
-      });
+      if (row.length > 1 || row[0] !== '') {
+        p.push(row.map(v => v.trim()));
+      }
+      return p;
+    }
 
-      statusEl.textContent = `資料載入完成，目前已成功開通所有管道，總計共 ${songs.length} 首歌曲提供搜尋！`;
+    async function loadAllCSVs() {
+      statusEl.textContent = "正在載入多張曲目資料…";
+      songs = [];
+      let successCount = 0;
+
+      for (const url of CSV_URLS) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+          const text = await res.text();
+          
+          const parsedRows = parseCSVLine(text).slice(1);
+          const currentSheetSongs = parsedRows
+            .map(c => {
+              const cleanTitle = c[0]?.replace(/^"|"$/g, '') || '';
+              const cleanProd  = c[1]?.replace(/^"|"$/g, '') || '';
+              const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
+              return {
+                title:      cleanTitle,
+                productUrl: cleanProd,
+                youtubeUrl: cleanYt
+              };
+            })
+            .filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
+
+          songs = songs.concat(currentSheetSongs);
+          successCount++;
+        } catch (e) {
+          console.error("載入曲目表失敗，網址: " + url, e);
+        }
+      }
+
+      if (successCount > 0) {
+        statusEl.textContent = `資料載入完成，共讀取 ${successCount} 張曲目表，目前共有 ${songs.length} 首歌曲提供搜尋！`;
+      } else {
+        statusEl.textContent = "所有曲目表讀取失敗，請確認網址或網路連線。";
+      }
+    }
+
+    // 優化：處理一鍵清空 (X) 按鈕的顯示控制
+    function toggleClearButton() {
+      if (searchEl.value.trim().length > 0) {
+        clearBtnEl.style.display = "inline-flex";
+      } else {
+        clearBtnEl.style.display = "none";
+      }
+    }
+
+    // 核心體驗優化：即時打字搜尋機制 (Debounce)
+    function handleSearchInput() {
+      toggleClearButton();
+      clearTimeout(debounceTimer);
+      
+      // 當使用者停止打字 250 毫秒後，自動觸發搜尋，完全免點按鈕
+      debounceTimer = setTimeout(() => {
+        doSearch(true);
+      }, 250);
     }
 
     function doSearch(isInstant = false) {
       const rawQuery = searchEl.value.trim();
-      clearBtnEl.style.display = rawQuery ? "inline-flex" : "none";
-      if (!rawQuery) { resultsEl.innerHTML = ""; return; }
+      toggleClearButton();
+      
+      if (!rawQuery) {
+        statusEl.textContent = "";
+        resultsEl.innerHTML = "";
+        return;
+      }
 
+      // 核心邏輯升級：多詞「空格斷字」模糊比對機制，解決順序顛倒找不到的問題
+      // 將使用者輸入用空格切碎（例如 "周杰倫 回到過去" -> ["周杰倫", "回到過去"]）
       const queryTerms = rawQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+
+      // 歌曲的歌名必須「同時包含」所有的切片關鍵字，才算符合
       const list = songs.filter(s => {
         const titleLower = s.title.toLowerCase();
         return queryTerms.every(term => titleLower.includes(term));
       });
 
-      if (isInstant) { render(list, rawQuery); } else {
-        resultsEl.innerHTML = ""; skeletonEl.style.display = "flex";
-        setTimeout(() => { skeletonEl.style.display = "none"; render(list, rawQuery); }, 200);
+      if (isInstant) {
+        // 如果是打字即時過濾，不閃爍骨架屏，追求絲滑極速體驗
+        render(list, rawQuery);
+      } else {
+        // 如果是手動點按鈕或按 Enter，顯示骨架屏提供高階網頁質感
+        statusEl.textContent = "";
+        resultsEl.innerHTML = "";
+        skeletonEl.style.display = "flex";
+
+        setTimeout(() => {
+          skeletonEl.style.display = "none";
+          render(list, rawQuery);
+        }, 200);
       }
     }
 
     function render(list, kw) {
       if (!list.length) {
-        resultsEl.innerHTML = `<div class="empty-state-box"><p>🔍 找不到符合「${kw}」的版本嗎？</p>${kw.length > 4 ? '<p class="empty-tip-text">💡 建議縮短關鍵字（例如只搜歌名）更容易找到喔！</p>' : ''}<a class="empty-contact-btn" href="#" onclick="document.getElementById('lineModalOverlay').style.display='flex'; return false;">💬 點此聯絡 LINE 客服直接許願</a></div>`;
+        statusEl.textContent = "";
+        
+        // 防呆機制：如果字串太長導致找不到，給予貼心縮短提示
+        let hintHtml = "";
+        if (kw.length > 4) {
+          hintHtml = `<p class="empty-tip-text">💡 貼心小提示：試著縮短關鍵字（例如只輸入其中的「歌名」或「歌手」），更容易搜到喔！</p>`;
+        }
+
+        resultsEl.innerHTML = `
+          <div class="empty-state-box">
+            <p>🔍 找不到符合「${kw}」的版本嗎？可能該曲目仍在編曲排程中。</p>
+            ${hintHtml}
+            <a class="empty-contact-btn" href="#" onclick="openLineModal(); return false;">
+              💬 點此聯絡 LINE 客服直接許願編曲
+            </a>
+          </div>
+        `;
         return;
       }
-      resultsEl.innerHTML = `<div class="result-count">找到 ${list.length} 筆結果：</div>` + list.map(s => {
-        let badge = '';
-        if (s.sourceType === "listening") { badge = '<span class="version-badge badge-listening">聽編樂譜</span>'; }
-        else if (s.title.includes("伴奏")) { badge = '<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>'; }
-        else if (s.title.includes("三重奏")) { badge = '<span class="version-badge badge-trio">鋼琴三重奏</span>'; }
-        else if (s.title.includes("小提琴")) { badge = '<span class="version-badge badge-violin">小提琴與鋼琴</span>'; }
-        else if (s.title.includes("演奏版")) { badge = '<span class="version-badge badge-piano-play">鋼琴演奏版</span>'; }
-        else if (s.title.includes("鋼琴版")) { badge = '<span class="version-badge badge-piano-solo">鋼琴版</span>'; }
-        else { badge = '<span class="version-badge badge-solo">鋼琴獨奏版</span>'; }
 
-        return `<div class="card"><div class="song-title-wrap">${badge}<div class="song-title">${s.title}</div></div><div class="links">${s.productUrl ? `<a class="link-preview" href="${s.productUrl}" target="_blank">📄 首頁預覽</a>` : ""}${s.youtubeUrl ? `<a class="link-demo" href="${s.youtubeUrl}" target="_blank">🎬 示範演奏</a>` : ""}</div></div>`;
-      }).join("");
+      statusEl.textContent = "";
+      resultsEl.innerHTML =
+        `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
+        list.map(s => {
+          // 精準多版本五彩識別標籤
+          let badgeHtml = '';
+          if (s.title.includes("伴奏")) {
+            badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
+          } else if (s.title.includes("三重奏")) {
+            badgeHtml = `<span class="version-badge badge-trio">鋼琴三重奏</span>`;
+          } else if (s.title.includes("小提琴")) {
+            badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
+          } else if (s.title.includes("演奏版")) {
+            badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏版</span>`;
+          } else if (s.title.includes("鋼琴版")) {
+            badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴版</span>`;
+          } else {
+            badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏版</span>`;
+          }
+
+          return `
+            <div class="card">
+              <div class="song-title-wrap">
+                ${badgeHtml}
+                <div class="song-title">${s.title}</div>
+              </div>
+              <div class="links">
+                ${s.productUrl ? `<a class="link-preview" href="${s.productUrl}" target="_blank">📄 首頁預覽</a>` : ""}
+                ${s.youtubeUrl ? `<a class="link-demo" href="${s.youtubeUrl}" target="_blank">🎬 示範演奏</a>` : ""}
+              </div>
+            </div>
+          `;
+        }).join("");
     }
 
-    searchEl.addEventListener("input", () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => doSearch(true), 250); });
-    searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(false); });
+    // 綁定各項優化後的交談監聽器
     document.getElementById("searchBtn").onclick = () => doSearch(false);
-    clearBtnEl.onclick = () => { searchEl.value = ""; doSearch(); searchEl.focus(); };
-    document.getElementById("lineFab").onclick = () => document.getElementById("lineModalOverlay").style.display = "flex";
-    document.querySelector(".line-modal-close").onclick = () => document.getElementById("lineModalOverlay").style.display = "none";
+    searchEl.addEventListener("input", handleSearchInput);
+    searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(false); });
+
+    // 一鍵清空按鈕事件優化
+    clearBtnEl.onclick = function() {
+      searchEl.value = "";
+      toggleClearButton();
+      resultsEl.innerHTML = "";
+      statusEl.textContent = `目前共有 ${songs.length} 首歌曲提供搜尋！`;
+      searchEl.focus();
+    };
 
     loadAllCSVs();
   </script>
+
 </body>
 </html>
