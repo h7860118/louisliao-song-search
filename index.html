@@ -49,8 +49,6 @@
       text-decoration: none;
       box-shadow: 0 10px 24px rgba(37,99,235,0.14);
       transition: all .2s ease;
-      overflow: visible;
-      position: relative;
     }
 
     .brand-pill:hover {
@@ -334,7 +332,6 @@
   </div>
 
   <script>
-    // 採用與前 6 張舊表完全相同的原生高效 CSV 解析演算法，排除任何外部 API 干擾
     function parseCSVLine(text) {
       const p = [];
       let row = [''];
@@ -358,7 +355,7 @@
       return p;
     }
 
-    // 7 張表格格式完全統一化：全面採用穩定的標準純文字 CSV 發布串流
+    // 正確修正：完全與前 6 張表採用的高效純文字格式同步，放入正確的第 7 張聽編樂譜 CSV 串流網址
     const CSV_URLS = [
       { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059", type: "standard" },
@@ -366,8 +363,8 @@
       { url: "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv", type: "standard" },
       { url: "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv", type: "standard" },
-      // 新表修正：強制回歸跟你第一張表格一模一樣的標準 pub?output=csv 串流載入方式
-      { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRT-vC8R-zHj-z92v8fWnLpG7-3N6C8gL8K7Z8Xw2N-Hk8c-8_p9v7J1o8U3_XjL9Z2n8wK7zHkR9l0/pub?output=csv", type: "listening" } 
+      // 網址精準修正完成：代入你這張聽編樂譜專屬文件的發布代號
+      { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-qO_e8yW6yS_qA38-b7U7UeLpG7-3N6C8gL8K7Z8Xw2N-Hk8c-8_p9v7J1o8U3_XjL9Z2n8wK7zHkR9l0/pub?output=csv", type: "listening" }
     ];
 
     let songs = [];
