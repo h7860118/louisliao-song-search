@@ -89,11 +89,25 @@
     }
 
     @media (max-width: 640px) {
-      .page { padding-top: 20px; }
-      .header-row { flex-direction: column; align-items: flex-start; gap: 10px; }
-      h1 { font-size: 24px; }
-      .brand-pill { padding: 9px 18px; font-size: 14px; }
-      .brand-pill-logo { width: 24px; height: 24px; }
+      .page {
+        padding-top: 20px;
+      }
+      .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .brand-pill {
+        padding: 9px 18px;
+        font-size: 14px;
+      }
+      .brand-pill-logo {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     /* ------------------ 搜尋 UI ------------------ */
@@ -119,7 +133,7 @@
     
     .search-input-wrap input {
       width: 100%;
-      padding: 14px 76px 14px 20px;
+      padding: 14px 44px 14px 20px;
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
@@ -134,40 +148,12 @@
       box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
     }
 
-    .search-controls {
+    /* 放大鏡小圖示 */
+    .search-icon-svg {
       position: absolute;
-      right: 16px;
+      right: 18px;
       top: 50%;
       transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .clear-btn {
-      background: #e2e8f0;
-      color: #475569;
-      border: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      line-height: 1;
-      transition: background 0.15s ease;
-    }
-    
-    .clear-btn:hover {
-      background: #cbd5e1;
-      color: #0f172a;
-    }
-
-    .search-icon-svg {
       width: 18px;
       height: 18px;
       fill: #94a3b8;
@@ -191,8 +177,15 @@
     }
 
     @media (max-width: 640px) {
-      .search-row { flex-direction: column; gap: 10px; }
-      .search-btn { padding: 14px 0; text-align: center; width: 100%; }
+      .search-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .search-btn {
+        padding: 14px 0;
+        text-align: center;
+        width: 100%;
+      }
     }
 
     .tip {
@@ -207,6 +200,7 @@
       margin-top: 8px;
     }
 
+    /* 骨架屏加載動畫機制 */
     .skeleton-loader {
       display: none;
       flex-direction: column;
@@ -229,8 +223,8 @@
       border-radius: 4px;
     }
     
-    .skeleton-title { width: 45%; margin-bottom: 12px; }
-    .skeleton-btn { width: 20%; }
+    .skeleton-title { width: 40%; margin-bottom: 12px; }
+    .skeleton-btn { width: 25%; }
 
     @keyframes skeleton-blink {
       0% { background-position: 200% 0; }
@@ -247,7 +241,7 @@
       margin-bottom: 12px;
     }
 
-    /* ------------------ 歌曲卡片與標籤 ------------------ */
+    /* ------------------ 歌曲卡片美化與五彩標籤 ------------------ */
     .card {
       background: #ffffff;
       border-radius: 14px;
@@ -290,12 +284,41 @@
       white-space: nowrap;
     }
 
-    .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-    .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
-    .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
-    .badge-piano-play { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
-    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
-    .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .badge-accompaniment {
+      background-color: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .badge-trio {
+      background-color: #faf5ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff;
+    }
+
+    .badge-violin {
+      background-color: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #ffedd5;
+    }
+
+    .badge-piano-solo {
+      background-color: #fdf2f8;
+      color: #be185d;
+      border: 1px solid #fbcfe8;
+    }
+
+    .badge-piano-play {
+      background-color: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+
+    .badge-solo {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
 
     .links {
       display: flex;
@@ -315,11 +338,25 @@
       transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .link-preview { background-color: #f1f5f9; color: #475569; }
-    .link-preview:hover { background-color: #e2e8f0; color: #1e293b; }
+    .link-preview {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
 
-    .link-demo { background-color: #fef2f2; color: #dc2626; }
-    .link-demo:hover { background-color: #fee2e2; color: #991b1b; }
+    .link-preview:hover {
+      background-color: #e2e8f0;
+      color: #1e293b;
+    }
+
+    .link-demo {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+
+    .link-demo:hover {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
 
     .empty-state-box {
       background: #ffffff;
@@ -331,8 +368,10 @@
       margin-top: 16px;
     }
 
-    .empty-state-box p { margin: 0 0 10px 0; font-size: 15px; }
-    .empty-tip-text { font-size: 13px; color: #dc2626; margin: 0 0 16px 0; font-weight: 500; }
+    .empty-state-box p {
+      margin: 0 0 16px 0;
+      font-size: 15px;
+    }
 
     .empty-contact-btn {
       display: inline-flex;
@@ -354,7 +393,7 @@
       box-shadow: 0 6px 16px rgba(6,199,85,0.3);
     }
 
-    /* ------------------ LINE 浮動按鈕 ------------------ */
+    /* ------------------ LINE 浮動按鈕 + 小卡片 ------------------ */
     #lineFab {
       position: fixed;
       right: 22px;
@@ -379,8 +418,16 @@
       transition: transform .15s ease, box-shadow .15s ease;
     }
 
-    #lineFab:hover .line-fab-inner { transform: translateY(-1px); box-shadow: 0 13px 28px rgba(0,0,0,.32); }
-    #lineFab svg { width: 34px; height: 34px; display: block; }
+    #lineFab:hover .line-fab-inner {
+      transform: translateY(-1px);
+      box-shadow: 0 13px 28px rgba(0,0,0,.32);
+    }
+
+    #lineFab svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
 
     .line-modal-overlay {
       position: fixed;
@@ -413,15 +460,65 @@
       font-weight: 600;
     }
 
-    .line-modal-header-left { display: flex; align-items: center; gap: 8px; }
-    .line-modal-logo-circle { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #06C755; font-weight: 700; }
-    .line-modal-close { border: none; background: transparent; color: #ffffff; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; }
-    .line-modal-body { padding: 16px 18px 20px; text-align: center; }
-    .line-modal-qr { width: 210px; height: 210px; object-fit: contain; display: block; margin: 0 auto 14px; }
-    .line-modal-link { display: inline-block; font-size: 14px; color: #2563eb; text-decoration: none; word-break: break-all; }
-    .line-modal-link:hover { text-decoration: underline; }
+    .line-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    @media (max-width: 640px) { .line-modal { margin-right: 12px; } }
+    .line-modal-logo-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #06C755;
+      font-weight: 700;
+    }
+
+    .line-modal-close {
+      border: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .line-modal-body {
+      padding: 16px 18px 20px;
+      text-align: center;
+    }
+
+    .line-modal-qr {
+      width: 210px;
+      height: 210px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 14px;
+    }
+
+    .line-modal-link {
+      display: inline-block;
+      font-size: 14px;
+      color: #2563eb;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .line-modal-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .line-modal {
+        margin-right: 12px;
+      }
+    }
   </style>
 </head>
 
@@ -439,24 +536,21 @@
     </div>
 
     <div class="subtitle">
-      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想你」「回到過去」等。
+      輸入歌名或演唱者的一部分即可模糊搜尋，例如「天天想心」「回到過去」等。
     </div>
 
     <div class="search-row">
       <div class="search-input-wrap">
-        <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" autocomplete="off" />
-        <div class="search-controls">
-          <button id="clearBtn" class="clear-btn" title="清空文字" type="button">×</button>
-          <svg class="search-icon-svg" viewBox="0 0 24 24">
-            <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-          </svg>
-        </div>
+        <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" />
+        <svg class="search-icon-svg" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
       </div>
       <button id="searchBtn" class="search-btn">搜尋</button>
     </div>
 
     <div class="tip">
-      🔍 小秘訣：支援多關鍵字搜尋！輸入「周杰倫 回到過去」或空格拆開也能精準找到喔！
+      🔍 小秘訣：可以用歌名、歌手、或部分關鍵字來找，例如「鋼琴三重奏」「小提琴」「伴奏版」。
     </div>
 
     <div id="status" class="status">目前載入中…</div>
@@ -541,17 +635,14 @@
       "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
-      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCR3s_SxRoSIBrja0YdI02eE7N-PeOAg6mk5aXUO04adglydGcOLAlSIF-Z5m-G6xEbzWW9x46IkwP/pub?output=csv"
+      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
-    let debounceTimer;
 
     const statusEl   = document.getElementById("status");
     const resultsEl  = document.getElementById("results");
     const searchEl   = document.getElementById("keyword");
-    const clearBtnEl = document.getElementById("clearBtn");
     const skeletonEl = document.getElementById("skeletonLoader");
 
     function parseCSVLine(text) {
@@ -612,73 +703,38 @@
       }
 
       if (successCount > 0) {
-        statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目來源，目前共有 ${songs.length} 首歌曲提供搜尋！`;
+        statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目來源，總計 ${songs.length} 首歌曲。`;
       } else {
         statusEl.textContent = "所有曲目表讀取失敗，請確認網址或網路連線。";
       }
     }
 
-    function toggleClearButton() {
-      if (searchEl.value.trim().length > 0) {
-        clearBtnEl.style.display = "inline-flex";
-      } else {
-        clearBtnEl.style.display = "none";
-      }
-    }
-
-    function handleSearchInput() {
-      toggleClearButton();
-      clearTimeout(debounceTimer);
-      
-      debounceTimer = setTimeout(() => {
-        doSearch(true);
-      }, 250);
-    }
-
-    function doSearch(isInstant = false) {
-      const rawQuery = searchEl.value.trim();
-      toggleClearButton();
-      
-      if (!rawQuery) {
-        statusEl.textContent = "";
+    function doSearch() {
+      const kw = searchEl.value.trim().toLowerCase();
+      if (!kw) {
+        statusEl.textContent = "請先輸入關鍵字。";
         resultsEl.innerHTML = "";
         return;
       }
 
-      const queryTerms = rawQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+      // 觸發優化：開啟動態骨架屏，短暫加載 250 毫秒以提供精緻的高級網頁體感
+      statusEl.textContent = "";
+      resultsEl.innerHTML = "";
+      skeletonEl.style.display = "flex";
 
-      const list = songs.filter(s => {
-        const titleLower = s.title.toLowerCase();
-        return queryTerms.every(term => titleLower.includes(term));
-      });
-
-      if (isInstant) {
-        render(list, rawQuery);
-      } else {
-        statusEl.textContent = "";
-        resultsEl.innerHTML = "";
-        skeletonEl.style.display = "flex";
-
-        setTimeout(() => {
-          skeletonEl.style.display = "none";
-          render(list, rawQuery);
-        }, 200);
-      }
+      setTimeout(() => {
+        skeletonEl.style.display = "none";
+        const list = songs.filter(s => s.title.toLowerCase().includes(kw));
+        render(list, kw);
+      }, 250);
     }
 
     function render(list, kw) {
       if (!list.length) {
         statusEl.textContent = "";
-        
-        let hintHtml = "";
-        if (kw.length > 4) {
-          hintHtml = `<p class="empty-tip-text">💡 貼心小提示：試著縮短關鍵字（例如只輸入其中的「歌名」或「歌手」），更容易搜到喔！</p>`;
-        }
-
         resultsEl.innerHTML = `
           <div class="empty-state-box">
-            <p>🔍 找不到符合「${kw}」的版本嗎？可能該曲目仍在編曲排程中。</p>
-            ${hintHtml}
+            <p>🔍 找不到符合「${kw}」的曲目嗎？可能該版本還在排程中。</p>
             <a class="empty-contact-btn" href="#" onclick="openLineModal(); return false;">
               💬 點此聯絡 LINE 客服直接許願編曲
             </a>
@@ -721,17 +777,8 @@
         }).join("");
     }
 
-    document.getElementById("searchBtn").onclick = () => doSearch(false);
-    searchEl.addEventListener("input", handleSearchInput);
-    searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(false); });
-
-    clearBtnEl.onclick = function() {
-      searchEl.value = "";
-      toggleClearButton();
-      resultsEl.innerHTML = "";
-      statusEl.textContent = `目前共有 ${songs.length} 首歌曲提供搜尋！`;
-      searchEl.focus();
-    };
+    document.getElementById("searchBtn").onclick = doSearch;
+    searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
 
     loadAllCSVs();
   </script>
