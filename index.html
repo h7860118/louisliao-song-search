@@ -119,7 +119,7 @@
     
     .search-input-wrap input {
       width: 100%;
-      padding: 14px 76px 14px 20px; /* 預留右側一鍵清空與放大鏡的空間 */
+      padding: 14px 76px 14px 20px;
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
@@ -134,7 +134,6 @@
       box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
     }
 
-    /* 搜尋右側功能按鈕區 */
     .search-controls {
       position: absolute;
       right: 16px;
@@ -145,7 +144,6 @@
       gap: 8px;
     }
 
-    /* 一鍵清空按鈕 (X) */
     .clear-btn {
       background: #e2e8f0;
       color: #475569;
@@ -156,7 +154,7 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      display: none; /* 有打字時才會透過 JS 顯示 */
+      display: none;
       align-items: center;
       justify-content: center;
       padding: 0;
@@ -209,7 +207,6 @@
       margin-top: 8px;
     }
 
-    /* 骨架屏載入動畫 */
     .skeleton-loader {
       display: none;
       flex-direction: column;
@@ -250,7 +247,7 @@
       margin-bottom: 12px;
     }
 
-    /* ------------------ 歌曲卡片美化與五彩標籤 ------------------ */
+    /* ------------------ 歌曲卡片與標籤 ------------------ */
     .card {
       background: #ffffff;
       border-radius: 14px;
@@ -293,7 +290,6 @@
       white-space: nowrap;
     }
 
-    /* 五彩繽班標籤樣式分配 */
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -325,7 +321,6 @@
     .link-demo { background-color: #fef2f2; color: #dc2626; }
     .link-demo:hover { background-color: #fee2e2; color: #991b1b; }
 
-    /* 空狀態防呆提示 */
     .empty-state-box {
       background: #ffffff;
       border-radius: 14px;
@@ -359,7 +354,7 @@
       box-shadow: 0 6px 16px rgba(6,199,85,0.3);
     }
 
-    /* ------------------ LINE 浮動按鈕 + 小卡片 ------------------ */
+    /* ------------------ LINE 浮動按鈕 ------------------ */
     #lineFab {
       position: fixed;
       right: 22px;
@@ -540,6 +535,7 @@
   </script>
 
   <script>
+    // 修正最後一張 Google 試算表 CSV 的網址格式 (將原本含有 /edit 且未正確轉換的網址修改為 /gviz/tq 輸出格式)
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
       "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
@@ -547,7 +543,7 @@
       "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv",
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE2kF4Tz63I6zKj_v-rB4Kq0mD2ZkM0qU2Vj6K9D1z-1z8BYOo6iphR_q9n0/pub?output=csv"
+      "https://docs.google.com/spreadsheets/d/1sGuAqKsOxB55Ga6oclvwsjzI1-1z8BYOo6iphR_q9n0/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
@@ -617,13 +613,12 @@
       }
 
       if (successCount > 0) {
-        statusEl.textContent = `資料載入完成，共讀取 ${successCount} 張曲目表，目前共有 ${songs.length} 首歌曲提供搜尋！`;
+        statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目來源，目前共有 ${songs.length} 首歌曲提供搜尋！`;
       } else {
         statusEl.textContent = "所有曲目表讀取失敗，請確認網址或網路連線。";
       }
     }
 
-    // 優化：處理一鍵清空 (X) 按鈕的顯示控制
     function toggleClearButton() {
       if (searchEl.value.trim().length > 0) {
         clearBtnEl.style.display = "inline-flex";
@@ -632,12 +627,10 @@
       }
     }
 
-    // 核心體驗優化：即時打字搜尋機制 (Debounce)
     function handleSearchInput() {
       toggleClearButton();
       clearTimeout(debounceTimer);
       
-      // 當使用者停止打字 250 毫秒後，自動觸發搜尋，完全免點按鈕
       debounceTimer = setTimeout(() => {
         doSearch(true);
       }, 250);
@@ -653,21 +646,16 @@
         return;
       }
 
-      // 核心邏輯升級：多詞「空格斷字」模糊比對機制，解決順序顛倒找不到的問題
-      // 將使用者輸入用空格切碎（例如 "周杰倫 回到過去" -> ["周杰倫", "回到過去"]）
       const queryTerms = rawQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
 
-      // 歌曲的歌名必須「同時包含」所有的切片關鍵字，才算符合
       const list = songs.filter(s => {
         const titleLower = s.title.toLowerCase();
         return queryTerms.every(term => titleLower.includes(term));
       });
 
       if (isInstant) {
-        // 如果是打字即時過濾，不閃爍骨架屏，追求絲滑極速體驗
         render(list, rawQuery);
       } else {
-        // 如果是手動點按鈕或按 Enter，顯示骨架屏提供高階網頁質感
         statusEl.textContent = "";
         resultsEl.innerHTML = "";
         skeletonEl.style.display = "flex";
@@ -683,7 +671,6 @@
       if (!list.length) {
         statusEl.textContent = "";
         
-        // 防呆機制：如果字串太長導致找不到，給予貼心縮短提示
         let hintHtml = "";
         if (kw.length > 4) {
           hintHtml = `<p class="empty-tip-text">💡 貼心小提示：試著縮短關鍵字（例如只輸入其中的「歌名」或「歌手」），更容易搜到喔！</p>`;
@@ -705,7 +692,6 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 精準多版本五彩識別標籤
           let badgeHtml = '';
           if (s.title.includes("伴奏")) {
             badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
@@ -736,12 +722,10 @@
         }).join("");
     }
 
-    // 綁定各項優化後的交談監聽器
     document.getElementById("searchBtn").onclick = () => doSearch(false);
     searchEl.addEventListener("input", handleSearchInput);
     searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(false); });
 
-    // 一鍵清空按鈕事件優化
     clearBtnEl.onclick = function() {
       searchEl.value = "";
       toggleClearButton();
