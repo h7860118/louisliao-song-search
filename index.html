@@ -293,7 +293,7 @@
       white-space: nowrap;
     }
 
-    /* 五彩繽紛標籤樣式分配 */
+    /* 五彩繽班標籤樣式分配 */
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -451,9 +451,7 @@
       <div class="search-input-wrap">
         <input id="keyword" type="text" placeholder="輸入歌名／演唱者關鍵字…" autocomplete="off" />
         <div class="search-controls">
-          <!-- 一鍵清空 X 按鈕 -->
           <button id="clearBtn" class="clear-btn" title="清空文字" type="button">×</button>
-          <!-- 內嵌放大鏡圖示 -->
           <svg class="search-icon-svg" viewBox="0 0 24 24">
             <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
           </svg>
@@ -468,7 +466,6 @@
 
     <div id="status" class="status">目前載入中…</div>
     
-    <!-- 骨架屏載入動畫區塊 -->
     <div id="skeletonLoader" class="skeleton-loader">
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
       <div class="skeleton-card"><div class="skeleton-line skeleton-title"></div><div class="skeleton-line skeleton-btn"></div></div>
@@ -477,7 +474,6 @@
     <div id="results" class="results"></div>
   </div>
 
-  <!-- LINE 浮動按鈕 -->
   <a id="lineFab" aria-label="加入 LINE 官方帳號">
     <div class="line-fab-inner">
       <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -487,7 +483,6 @@
     </div>
   </a>
 
-  <!-- LINE 小卡片 -->
   <div id="lineModalOverlay" class="line-modal-overlay" aria-hidden="true">
     <div class="line-modal" role="dialog" aria-modal="true" aria-labelledby="lineModalTitle">
       <div class="line-modal-header">
@@ -544,7 +539,6 @@
     }
   </script>
 
-  <!-- 多群組 CSV 搜尋核心優化功能 -->
   <script>
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
@@ -552,7 +546,8 @@
       "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
-      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv"
+      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE2kF4Tz63I6zKj_v-rB4Kq0mD2ZkM0qU2Vj6K9D1z-1z8BYOo6iphR_q9n0/pub?output=csv"
     ];
 
     let songs = [];
