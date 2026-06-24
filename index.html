@@ -290,12 +290,11 @@
       white-space: nowrap;
     }
 
-    .badge-listening { background-color: #f0fdfa; color: #0d9488; border: 1px solid #ccfbf1; } /* 聽編樂譜專屬：蒂芬妮綠 */
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
-    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
     .badge-piano-play { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
     .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 
     .links {
@@ -536,44 +535,15 @@
   </script>
 
   <script>
-    // 欄位容錯解析引擎，支援標準 CSV 及 Google Visualization JSON 回傳流格式
-    function parseCSVLine(text) {
-      const p = [];
-      let row = [''];
-      let q = false;
-      let r = 0;
-      for (let n = 0; n < text.length; n++) {
-        let c = text.charAt(n);
-        if (c === '"') { 
-          q = !q; 
-        } else if (c === ',' && !q) { 
-          c = row[++r] = ''; 
-        } else if ((c === '\n' || c === '\r') && !q) {
-          if (c === '\r' && text.charAt(n+1) === '\n') { n++; }
-          p.push(row.map(v => v.trim()));
-          row = [''];
-          r = 0;
-        } else { 
-          if (!row[r]) row[r] = '';
-          row[r] += c; 
-        }
-      }
-      if (row.length > 1 || row[0] !== '') {
-        p.push(row.map(v => v.trim()));
-      }
-      return p;
-    }
-
-    // 將新提供的測試「聽編樂譜」表格整合進去，改用標準無障礙 JSON 擷取流結構
+    // 已將第 7 張網址替換成獨立發布的 CSV 導出格式
     const CSV_URLS = [
-      { url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv", type: "standard" },
-      { url: "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv", type: "standard" },
-      // 聽編樂譜專屬對接點：使用全新測試表格代號，並強制採取 JSON/gviz 雙層安全加密解析流
-      { url: "https://docs.google.com/spreadsheets/d/1ExCq_bu_WLGEi69XxtIK9iDMWpoQjyl9EdxzTPYLIwA/gviz/tq", type: "listening" }
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
+      "https://docs.google.com/spreadsheets/d/1y36HFW7QEapeMKmvs32koMlPEdf_EyDXBfcVB64KmK8/gviz/tq?tqx=out:csv&gid=1903698059",
+      "https://docs.google.com/spreadsheets/d/1LhsbC3C4xVo8jfKfjivglOdou-ouRP38yGyemB9VqcI/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/18dzIqwQ9MC-8slit9_FvUSc1bnIOIJIHDi08bKOAZqQ/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCR3s_SxRoSIBrjaOYdlO2eE7N-PeOAg6mk5aXUO04adglydGcOLAISIF-Z5m-G6xEbzWW9x46lkwP/pub?output=csv"
     ];
 
     let songs = [];
@@ -585,68 +555,85 @@
     const clearBtnEl = document.getElementById("clearBtn");
     const skeletonEl = document.getElementById("skeletonLoader");
 
+    function parseCSVLine(text) {
+      const p = [];
+      let row = [''];
+      let i = 0, r = 0, q = false;
+      for (let n = 0; n < text.length; n++) {
+        let c = text.charAt(n);
+        if (c === '"') { 
+          q = !q; 
+        } else if (c === ',' && !q) { 
+          c = row[++r] = ''; 
+        } else if ((c === '\n' || c === '\r') && !q) {
+          if (c === '\r' && text.charAt(n+1) === '\n') { n++; }
+          p.push(row.map(v => v.trim()));
+          row = [c = ''];
+          r = 0;
+        } else { 
+          row[r] += c; 
+        }
+      }
+      if (row.length > 1 || row[0] !== '') {
+        p.push(row.map(v => v.trim()));
+      }
+      return p;
+    }
+
     async function loadAllCSVs() {
       statusEl.textContent = "正在載入多張曲目資料…";
       songs = [];
       let successCount = 0;
 
-      for (const item of CSV_URLS) {
+      for (const url of CSV_URLS) {
         try {
-          const res = await fetch(item.url);
+          const res = await fetch(url);
           if (!res.ok) continue;
-          let text = await res.text();
+          const text = await res.text();
           
-          // 進階解鎖：若檔案含有 Google JSON 安全保護殼頭尾，自動剝除並使用高精準物件解析法
-          if (text.includes("google.visualization.Query.setResponse")) {
-            const rawJson = text.replace(/[\s\S]*?google\.visualization\.Query\.setResponse\(/, "").replace(/\);?\s*$/, "");
-            const dataObj = JSON.parse(rawJson);
-            if (dataObj.table && dataObj.table.rows) {
-              const parsedSheetSongs = dataObj.table.rows.map(row => {
-                const cleanTitle = row.c[0]?.v !== null ? String(row.c[0]?.v || '') : '';
-                const cleanProd  = row.c[1]?.v !== null ? String(row.c[1]?.v || '') : '';
-                const cleanYt    = row.c[2]?.v !== null ? String(row.c[2]?.v || '') : '';
-                return { title: cleanTitle, productUrl: cleanProd, youtubeUrl: cleanYt, sourceType: item.type };
-              }).filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
-              
-              songs = songs.concat(parsedSheetSongs);
-              successCount++;
-              continue;
-            }
-          }
-
-          // 標準文字格式容錯解析法
           const parsedRows = parseCSVLine(text).slice(1);
           const currentSheetSongs = parsedRows
-            .map(c => ({
-              title:      c[0]?.replace(/^"|"$/g, '') || '',
-              productUrl: c[1]?.replace(/^"|"$/g, '') || '',
-              youtubeUrl: c[2]?.replace(/^"|"$/g, '') || '',
-              sourceType: item.type
-            }))
+            .map(c => {
+              const cleanTitle = c[0]?.replace(/^"|"$/g, '') || '';
+              const cleanProd  = c[1]?.replace(/^"|"$/g, '') || '';
+              const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
+              return {
+                title:      cleanTitle,
+                productUrl: cleanProd,
+                youtubeUrl: cleanYt
+              };
+            })
             .filter(s => s.title && s.title !== "歌名" && s.title !== "曲目");
 
           songs = songs.concat(currentSheetSongs);
           successCount++;
         } catch (e) {
-          console.error("載入曲目表失敗，網址: " + item.url, e);
+          console.error("載入曲目表失敗，網址: " + url, e);
         }
       }
 
       if (successCount > 0) {
         statusEl.textContent = `資料載入完成，共成功讀取 ${successCount} 張曲目來源，目前共有 ${songs.length} 首歌曲提供搜尋！`;
       } else {
-        statusEl.textContent = "所有曲目表讀取失敗，請確認網路連線。";
+        statusEl.textContent = "所有曲目表讀取失敗，請確認網址或網路連線。";
       }
     }
 
     function toggleClearButton() {
-      clearBtnEl.style.display = searchEl.value.trim().length > 0 ? "inline-flex" : "none";
+      if (searchEl.value.trim().length > 0) {
+        clearBtnEl.style.display = "inline-flex";
+      } else {
+        clearBtnEl.style.display = "none";
+      }
     }
 
     function handleSearchInput() {
       toggleClearButton();
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => { doSearch(true); }, 250);
+      
+      debounceTimer = setTimeout(() => {
+        doSearch(true);
+      }, 250);
     }
 
     function doSearch(isInstant = false) {
@@ -660,6 +647,7 @@
       }
 
       const queryTerms = rawQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
+
       const list = songs.filter(s => {
         const titleLower = s.title.toLowerCase();
         return queryTerms.every(term => titleLower.includes(term));
@@ -671,6 +659,7 @@
         statusEl.textContent = "";
         resultsEl.innerHTML = "";
         skeletonEl.style.display = "flex";
+
         setTimeout(() => {
           skeletonEl.style.display = "none";
           render(list, rawQuery);
@@ -681,6 +670,7 @@
     function render(list, kw) {
       if (!list.length) {
         statusEl.textContent = "";
+        
         let hintHtml = "";
         if (kw.length > 4) {
           hintHtml = `<p class="empty-tip-text">💡 貼心小提示：試著縮短關鍵字（例如只輸入其中的「歌名」或「歌手」），更容易搜到喔！</p>`;
@@ -703,11 +693,7 @@
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
           let badgeHtml = '';
-          
-          // 權重規則：聽編樂譜專屬資料來源優先覆蓋，防止被歌曲名稱內文鋼琴版字樣誤導
-          if (s.sourceType === "listening") {
-            badgeHtml = `<span class="version-badge badge-listening">聽編樂譜</span>`;
-          } else if (s.title.includes("伴奏")) {
+          if (s.title.includes("伴奏")) {
             badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
           } else if (s.title.includes("三重奏")) {
             badgeHtml = `<span class="version-badge badge-trio">鋼琴三重奏</span>`;
