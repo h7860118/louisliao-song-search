@@ -60,7 +60,7 @@
       border-radius: inherit;
       background: radial-gradient(circle at center, rgba(164,191,255,0.40), rgba(164,191,255,0));
       filter: blur(8px);
-      z-index: -1;
+      z-10: -1;
       opacity: 0.85;
       pointer-events: none;
     }
@@ -294,6 +294,7 @@
     }
 
     /* 五彩繽紛標籤樣式分配 */
+    .badge-transcription { background-color: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4; }
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -705,9 +706,11 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 精準多版本五彩識別標籤
+          // 精準多版本五彩識別標籤邏輯優化：優先判斷聽編樂譜
           let badgeHtml = '';
-          if (s.title.includes("伴奏")) {
+          if (s.title.includes("聽編樂譜") || s.title.includes("聽編")) {
+            badgeHtml = `<span class="version-badge badge-transcription">聽編樂譜版</span>`;
+          } else if (s.title.includes("伴奏")) {
             badgeHtml = `<span class="version-badge badge-accompaniment">鋼琴伴奏版</span>`;
           } else if (s.title.includes("三重奏")) {
             badgeHtml = `<span class="version-badge badge-trio">鋼琴三重奏</span>`;
