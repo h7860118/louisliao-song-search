@@ -295,7 +295,8 @@
 
     /* 五彩繽紛標籤樣式分配（拿掉「版」字） */
     .badge-transcription { background-color: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4; }
-    .badge-easy-numbered { background-color: #fffbeb; color: #d97706; border: 1px solid #fef3c7; } /* 鋼琴首調簡易 */
+    .badge-easy-numbered { background-color: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
+    .badge-short-piece { background-color: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; } /* 鋼琴短曲：紫色系 */
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -550,7 +551,8 @@
       "https://docs.google.com/spreadsheets/d/1zKycWqb3247YkPlRcPgGY-ZvDhbYwsLKBjKTQiqooO8/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1-iliNJJM26LLijsTy2hh5dje19MJ_4WqOZeg5UKKQLU/gviz/tq?tqx=out:csv",
       "https://docs.google.com/spreadsheets/d/1ExCq_bu_WLGEi69XxtIK9iDMWpoQjyl9EdxzTPYLIwA/gviz/tq?tqx=out:csv",
-      "https://docs.google.com/spreadsheets/d/1_Gkj0-eTE6obSUOACqcQw8_JgN4pOrQyVm12dBAjhRY/gviz/tq?tqx=out:csv"
+      "https://docs.google.com/spreadsheets/d/1_Gkj0-eTE6obSUOACqcQw8_JgN4pOrQyVm12dBAjhRY/gviz/tq?tqx=out:csv",
+      "https://docs.google.com/spreadsheets/d/1u4_D5REmMdf-OE3BcblTutLARzvQ98Jg_ht2vNZF1j8/gviz/tq?tqx=out:csv"
     ];
 
     let songs = [];
@@ -708,10 +710,12 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 精準多版本五彩識別標籤邏輯優化：聽編樂譜 > 鋼琴首調簡易 > 其他版本
+          // 精準多版本五彩識別標籤邏輯優化：聽編樂譜 > 鋼琴短曲 > 鋼琴首調簡易 > 其他版本
           let badgeHtml = '';
           if (s.title.includes("聽編樂譜") || s.title.includes("聽編")) {
             badgeHtml = `<span class="version-badge badge-transcription">聽編樂譜</span>`;
+          } else if (s.title.includes("短曲")) {
+            badgeHtml = `<span class="version-badge badge-short-piece">鋼琴短曲</span>`;
           } else if (s.title.includes("首調") || s.title.includes("簡易")) {
             badgeHtml = `<span class="version-badge badge-easy-numbered">鋼琴首調簡易</span>`;
           } else if (s.title.includes("伴奏")) {
