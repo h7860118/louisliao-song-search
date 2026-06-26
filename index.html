@@ -296,7 +296,7 @@
     /* 五彩繽紛標籤樣式分配（拿掉「版」字） */
     .badge-transcription { background-color: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4; }
     .badge-easy-numbered { background-color: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
-    .badge-short-piece { background-color: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; } /* 鋼琴短曲：紫色系 */
+    .badge-short-piece { background-color: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; } 
     .badge-accompaniment { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
@@ -628,7 +628,6 @@
       }
     }
 
-    // 優化：處理一鍵清空 (X) 按鈕的顯示控制
     function toggleClearButton() {
       if (searchEl.value.trim().length > 0) {
         clearBtnEl.style.display = "inline-flex";
@@ -637,12 +636,10 @@
       }
     }
 
-    // 核心體驗優化：即時打字搜尋機制 (Debounce)
     function handleSearchInput() {
       toggleClearButton();
       clearTimeout(debounceTimer);
       
-      // 當使用者停止打字 250 毫秒後，自動觸發搜尋，完全免點按鈕
       debounceTimer = setTimeout(() => {
         doSearch(true);
       }, 250);
@@ -658,21 +655,16 @@
         return;
       }
 
-      // 核心邏輯升級：多詞「空格斷字」模糊比對機制，解決順序顛倒找不到的問題
-      // 將使用者輸入用空格切碎（例如 "周杰倫 回到過去" -> ["周杰倫", "回到過去"]）
       const queryTerms = rawQuery.toLowerCase().split(/\s+/).filter(t => t.length > 0);
 
-      // 歌曲的歌名必須「同時包含」所有的切片關鍵字，才算符合
       const list = songs.filter(s => {
         const titleLower = s.title.toLowerCase();
         return queryTerms.every(term => titleLower.includes(term));
       });
 
       if (isInstant) {
-        // 如果是打字即時過濾，不閃爍骨架屏，追求絲滑極速體驗
         render(list, rawQuery);
       } else {
-        // 如果是手動點按鈕或按 Enter，顯示骨架屏提供高階網頁質感
         statusEl.textContent = "";
         resultsEl.innerHTML = "";
         skeletonEl.style.display = "flex";
@@ -688,7 +680,6 @@
       if (!list.length) {
         statusEl.textContent = "";
         
-        // 防呆機制：如果字串太長導致找不到，給予貼心縮短提示
         let hintHtml = "";
         if (kw.length > 4) {
           hintHtml = `<p class="empty-tip-text">💡 貼心小提示：試著縮短關鍵字（例如只輸入其中的「歌名」或「歌手」），更容易搜到喔！</p>`;
@@ -710,7 +701,7 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 精準多版本五彩識別標籤邏輯優化：聽編樂譜 > 鋼琴短曲 > 鋼琴首調簡易 > 其他版本
+          // 核心修正：調整優先級判定，確保聽編樂譜大於鋼琴版，且鋼琴獨奏（原鋼琴版）正確觸發
           let badgeHtml = '';
           if (s.title.includes("聽編樂譜") || s.title.includes("聽編")) {
             badgeHtml = `<span class="version-badge badge-transcription">聽編樂譜</span>`;
@@ -726,7 +717,7 @@
             badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
           } else if (s.title.includes("演奏版")) {
             badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏</span>`;
-          } else if (s.title.includes("鋼琴版")) {
+          } else if (s.title.includes("鋼琴版") || s.title.includes("鋼琴")) {
             badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴獨奏</span>`;
           } else {
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏</span>`;
@@ -747,12 +738,10 @@
         }).join("");
     }
 
-    // 綁定各項優化後的交談監聽器
     document.getElementById("searchBtn").onclick = () => doSearch(false);
     searchEl.addEventListener("input", handleSearchInput);
     searchEl.addEventListener("keydown", e => { if (e.key === "Enter") doSearch(false); });
 
-    // 一鍵清空按鈕事件優化
     clearBtnEl.onclick = function() {
       searchEl.value = "";
       toggleClearButton();
