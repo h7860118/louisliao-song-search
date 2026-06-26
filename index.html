@@ -119,7 +119,7 @@
     
     .search-input-wrap input {
       width: 100%;
-      padding: 14px 76px 14px 20px;
+      padding: 14px 76px 14px 20px; /* 預留右側一鍵清空與放大鏡的空間 */
       border-radius: 999px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
@@ -134,6 +134,7 @@
       box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
     }
 
+    /* 搜尋右側功能按鈕區 */
     .search-controls {
       position: absolute;
       right: 16px;
@@ -144,6 +145,7 @@
       gap: 8px;
     }
 
+    /* 一鍵清空按鈕 (X) */
     .clear-btn {
       background: #e2e8f0;
       color: #475569;
@@ -154,7 +156,7 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      display: none;
+      display: none; /* 有打字時才會透過 JS 顯示 */
       align-items: center;
       justify-content: center;
       padding: 0;
@@ -291,7 +293,7 @@
       white-space: nowrap;
     }
 
-    /* 每個版本獨立的方塊框樣式與顏色區分 */
+    /* 五彩繽紛標籤樣式分配（拿掉「版」字） */
     .badge-transcription { background-color: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4; }
     .badge-easy-numbered { background-color: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
     .badge-short-piece { background-color: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe; } 
@@ -300,9 +302,9 @@
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
     .badge-piano-play { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
     
-    /* 這裡完美獨立區分開兩個外觀方塊 */
-    .badge-piano-version { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; } /* 鋼琴版：獨立的粉色底粉色框 */
-    .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }          /* 鋼琴獨奏：獨立的綠色底綠色框 */
+    /* 修正：分拆為兩個不同顏色樣式的標籤，避免跑色 */
+    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; } /* 帶有「鋼琴版」關鍵字的粉色標籤 */
+    .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }       /* 單純鋼琴獨奏的綠色標籤 */
 
     .links {
       display: flex;
@@ -328,6 +330,7 @@
     .link-demo { background-color: #fef2f2; color: #dc2626; }
     .link-demo:hover { background-color: #fee2e2; color: #991b1b; }
 
+    /* 空狀態防呆提示 */
     .empty-state-box {
       background: #ffffff;
       border-radius: 14px;
@@ -361,6 +364,7 @@
       box-shadow: 0 6px 16px rgba(6,199,85,0.3);
     }
 
+    /* ------------------ LINE 浮動按鈕 + 小卡片 ------------------ */
     #lineFab {
       position: fixed;
       right: 22px;
@@ -540,6 +544,7 @@
     }
   </script>
 
+  <!-- 多群組 CSV 搜尋核心優化功能 -->
   <script>
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
@@ -699,10 +704,7 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 完美樣式隔離修正：
-          // 1. 歌名包含「聽編樂譜」或「聽編」 -> 綠色框框顯示「聽編樂譜」
-          // 2. 歌名包含「鋼琴版」 -> 粉色框框顯示「鋼琴版」
-          // 3. 其餘一般曲目 -> 綠色框框顯示「鋼琴獨奏」
+          // 精準多版本五彩識別標籤與優先級判定優化
           let badgeHtml = '';
           if (s.title.includes("聽編樂譜") || s.title.includes("聽編")) {
             badgeHtml = `<span class="version-badge badge-transcription">聽編樂譜</span>`;
@@ -719,8 +721,10 @@
           } else if (s.title.includes("演奏版")) {
             badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏</span>`;
           } else if (s.title.includes("鋼琴版")) {
-            badgeHtml = `<span class="version-badge badge-piano-version">鋼琴版</span>`;
+            // 精準修正：含有「鋼琴版」關鍵字的曲目，使用粉色框框，名稱依然是「鋼琴獨奏」
+            badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴獨奏</span>`;
           } else {
+            // 單純無特定後綴關鍵字的其餘普通曲目，維持綠色框框的「鋼琴獨奏」
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏</span>`;
           }
 
