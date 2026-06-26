@@ -301,8 +301,10 @@
     .badge-trio { background-color: #faf5ff; color: #6b21a8; border: 1px solid #e9d5ff; }
     .badge-violin { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
     .badge-piano-play { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
-    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
-    .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    
+    /* 修正：分拆為兩個不同顏色樣式的標籤，避免跑色 */
+    .badge-piano-solo { background-color: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; } /* 帶有「鋼琴版」關鍵字的粉色標籤 */
+    .badge-solo { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }       /* 單純鋼琴獨奏的綠色標籤 */
 
     .links {
       display: flex;
@@ -542,6 +544,7 @@
     }
   </script>
 
+  <!-- 多群組 CSV 搜尋核心優化功能 -->
   <script>
     const CSV_URLS = [
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSOihjh1ceJIGyQQ49iBMcJoNS8Xqq_NW7nQVQ8gSQ89Hgo2yk4CA2fUNJjIEEdzqkcz2_2WfKlCQtV/pub?output=csv",
@@ -701,7 +704,7 @@
       resultsEl.innerHTML =
         `<div class="result-count">找到 ${list.length} 筆符合「${kw}」的結果：</div>` +
         list.map(s => {
-          // 核心修正：調整優先級判定，確保聽編樂譜大於鋼琴版，且鋼琴獨奏（原鋼琴版）正確觸發
+          // 精準多版本五彩識別標籤與優先級判定優化
           let badgeHtml = '';
           if (s.title.includes("聽編樂譜") || s.title.includes("聽編")) {
             badgeHtml = `<span class="version-badge badge-transcription">聽編樂譜</span>`;
@@ -717,9 +720,11 @@
             badgeHtml = `<span class="version-badge badge-violin">小提琴與鋼琴</span>`;
           } else if (s.title.includes("演奏版")) {
             badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏</span>`;
-          } else if (s.title.includes("鋼琴版") || s.title.includes("鋼琴")) {
+          } else if (s.title.includes("鋼琴版")) {
+            // 精準修正：含有「鋼琴版」關鍵字的曲目，使用粉色框框，名稱依然是「鋼琴獨奏」
             badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴獨奏</span>`;
           } else {
+            // 單純無特定後綴關鍵字的其餘普通曲目，維持綠色框框的「鋼琴獨奏」
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏</span>`;
           }
 
