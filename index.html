@@ -721,8 +721,8 @@
           } else if (s.title.includes("演奏版")) {
             badgeHtml = `<span class="version-badge badge-piano-play">鋼琴演奏</span>`;
           } else if (s.title.includes("鋼琴版")) {
-            // 精準修正：含有「鋼琴版」關鍵字的曲目，使用粉色框框，名稱依然是「鋼琴獨奏」
-            badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴獨奏</span>`;
+            // 精準修正：含有「鋼琴版」關鍵字的曲目，使用粉色框框，名稱依然是「鋼琴版」
+            badgeHtml = `<span class="version-badge badge-piano-solo">鋼琴版</span>`;
           } else {
             // 單純無特定後綴關鍵字的其餘普通曲目，維持綠色框框的「鋼琴獨奏」
             badgeHtml = `<span class="version-badge badge-solo">鋼琴獨奏</span>`;
@@ -760,3 +760,4 @@
 
 </body>
 </html>
+
