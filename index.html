@@ -324,9 +324,6 @@
       transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .link-preview { background-color: #f1f5f9; color: #475569; }
-    .link-preview:hover { background-color: #e2e8f0; color: #1e293b; }
-
     .link-demo { background-color: #fef2f2; color: #dc2626; }
     .link-demo:hover { background-color: #fee2e2; color: #991b1b; }
 
@@ -611,7 +608,6 @@
               const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
               return {
                 title:      cleanTitle,
-                productUrl: cleanProd,
                 youtubeUrl: cleanYt
               };
             })
@@ -735,7 +731,6 @@
                 <div class="song-title">${s.title}</div>
               </div>
               <div class="links">
-                ${s.productUrl ? `<a class="link-preview" href="${s.productUrl}" target="_blank">📄 首頁預覽</a>` : ""}
                 ${s.youtubeUrl ? `<a class="link-demo" href="${s.youtubeUrl}" target="_blank">🎬 示範演奏</a>` : ""}
               </div>
             </div>
@@ -760,4 +755,3 @@
 
 </body>
 </html>
-
