@@ -604,8 +604,8 @@
           const currentSheetSongs = parsedRows
             .map(c => {
               const cleanTitle = c[0]?.replace(/^"|"$/g, '') || '';
-              const cleanProd  = c[1]?.replace(/^"|"$/g, '') || '';
-              const cleanYt    = c[2]?.replace(/^"|"$/g, '') || '';
+              // Google 試算表：A 欄是曲名，B 欄是 YouTube 示範演奏網址。
+              const cleanYt    = c[1]?.replace(/^"|"$/g, '') || '';
               return {
                 title:      cleanTitle,
                 youtubeUrl: cleanYt
